@@ -27,12 +27,35 @@ const App = () => {
   const voteHandler = ()=>{
     setPoints({...points,[indexs]:points[indexs]+1})
   }
+  const Highvotefinder = ()=>{
+    const votes = Object.keys(points)
+    .sort((index1,index2)=>points[index2]-points[index1])
+    if(points[votes[0]]===0){
+      return(
+        <div>
+          <br></br>
+          No anecdotes has been voted yet
+        </div>
+      )
+    }
+    return(
+      <div>
+        <h1>
+          High Voted anecdotes is 
+        </h1>
+        <p>{anecdotes[votes[0]]}</p>
+        <p>Has {points[votes[0]]} votes</p>
+      </div>
+    )
+  }
   return(
     <div>
+      <h1>Anecdote of the day </h1>
       {anecdotes[indexs]}
       <p>has {points[indexs]} vote</p>
       <br></br>
      <button onClick={voteHandler}>Vote</button> <button onClick={clickHandler}>Next anecdotes</button>
+     <Highvotefinder/>
     </div>
   )
 }
