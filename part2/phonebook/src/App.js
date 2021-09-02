@@ -6,8 +6,16 @@ const App=()=>{
   const [newName,setNewname] = useState('')
   const addPerson = (e)=>{
     e.preventDefault()
-    setPersons(persons.concat({name:newName}))
-    console.log(persons)
+    const checker = persons.filter((person)=>person.name===newName)
+    console.log(checker.length)
+    console.log(checker);
+    if(checker.length>0){
+      alert(`${newName} is already in the list`)
+    }
+    else{
+      setPersons(persons.concat({name:newName}))
+      
+    }
     
   }
   const handelChange=(e)=>{
