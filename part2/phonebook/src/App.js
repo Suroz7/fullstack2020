@@ -1,17 +1,16 @@
 import React,{useState,useEffect} from 'react';
 import AddPerson from'./Components/Addperson'
 import FilterPerson  from './Components/FilterPerson';
-import ShowPerson from './Components/ShowPerson';
-import axios from 'axios'
+import ShowPerson from './Components/ShowPerson'
+import service from './services/PhoneNo'
 const App=()=>{
   const [persons,setPersons] = useState([])
   const [newName,setNewname] = useState('')
   const [newNo,setNewNo] = useState('')
   const [filter,setFilter] = useState('')
   useEffect(()=>{
-    axios.get('http://localhost:3001/persons')
+    service.getAllNo()
     .then(response=>{
-      console.log('data loaded')
       setPersons(response.data)
     })
   },[])
@@ -22,17 +21,22 @@ const App=()=>{
       alert(`${newName} is already in the list`)
     }
     else{
-      axios.post("http://localhost:3001/persons",{name:newName,number:newNo})
-      .then((response)=>{
-        console.log(response.data)
-        axios.get('http://localhost:3001/persons')
-        .then((response)=>{
-          setPersons(response.data)
-        })
-      })
+      service.addNewNo({name:newName,number:newNo})
+      .then(service.getAllNo)
+      .then((response)=>setPersons(response.data))
       
     }
     
+  }
+  const getPersonname=(id)=>{
+    return persons.filter((person)=>person.id===id)
+  }
+  const deletePerson =(id)=>{
+    if(window.confirm(`Do You Really wanna delete ${getPersonname(id)[0].name} `)){
+      service.deleteNo(id)
+      .then(service.getAllNo)
+      .then((response)=>setPersons(response.data))
+    }
   }
   const handelNameChange=(e)=>{
     setNewname(e.target.value)
@@ -51,8 +55,7 @@ const App=()=>{
       <AddPerson addPerson={addPerson} handelNoChange={handelNoChange} handelNameChange={handelNameChange}/>
       <div>
         <h1>Numbers</h1>
-      <ShowPerson persons={persons} filter={filter
-      }/>
+      <ShowPerson persons={persons} deleteNo={deletePerson} filter={filter}/>
       </div>
     </div>
   )
