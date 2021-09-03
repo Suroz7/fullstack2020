@@ -18,7 +18,12 @@ const App=()=>{
     e.preventDefault()
     const checker = persons.filter((person)=>person.name===newName)
     if(checker.length>0){
-      alert(`${newName} is already in the list`)
+      
+      if(window.confirm(`${newName} is already in phone book wanna update the phone no`)){
+        service.updateNo(getPersonId(newName)[0].id,{name:newName,number:newNo})
+        .then(service.getAllNo)
+        .then((response)=>setPersons(response.data))
+      }
     }
     else{
       service.addNewNo({name:newName,number:newNo})
@@ -30,6 +35,9 @@ const App=()=>{
   }
   const getPersonname=(id)=>{
     return persons.filter((person)=>person.id===id)
+  }
+  const getPersonId=(name)=>{
+    return persons.filter((person)=>person.name===name)
   }
   const deletePerson =(id)=>{
     if(window.confirm(`Do You Really wanna delete ${getPersonname(id)[0].name} `)){

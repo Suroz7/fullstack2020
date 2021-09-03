@@ -10,7 +10,7 @@ return(
         </div>
         <br></br>
         <div>
-          Number:<input type="number" name="number" onChange={handelNoChange}/>
+          Number:<input type="text" name="number" onChange={handelNoChange}/>
         </div>
         
         <div>

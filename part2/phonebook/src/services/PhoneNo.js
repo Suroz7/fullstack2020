@@ -11,10 +11,13 @@ const addNewNo = (newNo)=>{
 const deleteNo = (id)=>{
     return axios.delete(`${url}/${id}`)
 }
-
+const updateNo =(id,newPerson)=>{
+    return axios.put(`${url}/${id}`,newPerson)
+}
 const services =  {
     getAllNo,
     addNewNo,
-    deleteNo
+    deleteNo,
+    updateNo
 }
 export default services
