@@ -1,33 +1,40 @@
 import React,{useState} from 'react';
 const App=()=>{
   const [persons,setPersons] = useState([
-    {name:"Suroz Suroz"}
+    {name:"Suroz Suroz",number:'9800000000'}
   ])
   const [newName,setNewname] = useState('')
+  const [newNo,setNewNo] = useState('')
   const addPerson = (e)=>{
     e.preventDefault()
     const checker = persons.filter((person)=>person.name===newName)
-    console.log(checker.length)
-    console.log(checker);
     if(checker.length>0){
       alert(`${newName} is already in the list`)
     }
     else{
-      setPersons(persons.concat({name:newName}))
+      setPersons(persons.concat({name:newName,number:newNo}))
       
     }
     
   }
-  const handelChange=(e)=>{
+  const handelNameChange=(e)=>{
     setNewname(e.target.value)
+  }
+  const handelNoChange=(e)=>{
+    setNewNo(e.target.value)
   }
   return (
     <div>
       <h1>PhoneBook</h1>
       <form onSubmit={addPerson} >
         <div>
-          Name:<input type="text"  name='name' onChange={handelChange}/>
+          Name:<input type="text"  name='name' onChange={handelNameChange}/>
         </div>
+        <br></br>
+        <div>
+          Number:<input type="number" name="number" onChange={handelNoChange}/>
+        </div>
+        
         <div>
           <button type="submit" >Add</button>
         </div>
@@ -36,7 +43,7 @@ const App=()=>{
         <h1>Numbers</h1>
       {persons.map((person)=>{
          return( <div key={person.name}>
-            {person.name}<br></br>
+            {person.name} {person.number}<br></br>
           </div>
          )
             }
