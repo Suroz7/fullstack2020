@@ -1,17 +1,20 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import AddPerson from'./Components/Addperson'
 import FilterPerson  from './Components/FilterPerson';
 import ShowPerson from './Components/ShowPerson';
+import axios from 'axios'
 const App=()=>{
-  const [persons,setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [persons,setPersons] = useState([])
   const [newName,setNewname] = useState('')
   const [newNo,setNewNo] = useState('')
   const [filter,setFilter] = useState('')
+  useEffect(()=>{
+    axios.get('http://localhost:3001/persons')
+    .then(response=>{
+      console.log('data loaded')
+      setPersons(response.data)
+    })
+  },[])
   const addPerson = (e)=>{
     e.preventDefault()
     const checker = persons.filter((person)=>person.name===newName)
@@ -41,7 +44,8 @@ const App=()=>{
       <AddPerson addPerson={addPerson} handelNoChange={handelNoChange} handelNameChange={handelNameChange}/>
       <div>
         <h1>Numbers</h1>
-      <ShowPerson persons={persons} filter={filter}/>
+      <ShowPerson persons={persons} filter={filter
+      }/>
       </div>
     </div>
   )
