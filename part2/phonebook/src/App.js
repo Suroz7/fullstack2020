@@ -22,7 +22,14 @@ const App=()=>{
       alert(`${newName} is already in the list`)
     }
     else{
-      setPersons(persons.concat({name:newName,number:newNo}))
+      axios.post("http://localhost:3001/persons",{name:newName,number:newNo})
+      .then((response)=>{
+        console.log(response.data)
+        axios.get('http://localhost:3001/persons')
+        .then((response)=>{
+          setPersons(response.data)
+        })
+      })
       
     }
     
