@@ -55,7 +55,6 @@ const App=()=>{
   }
   const deletePerson =(id)=>{
     if(window.confirm(`Do You Really wanna delete ${getPersonname(id)[0].name} `)){
-      
       service.deleteNo(id)
       .then((response)=>{
         setMessage({type:'success',message:`${getPersonname(id)[0].name} is removed from server`})
