@@ -7,8 +7,8 @@ const ShowPerson=(props)=>{
             
          return( <div key={person._id}>
          	{console.log(person._id)}
-            {person.name.toLocaleUpperCase().includes(filter.toLocaleUpperCase())?`${person.name} ${person.number}`:`` } 
-            <button onClick={()=>deleteNo(person._id)}>Delete</button>
+            {person.name.toLocaleUpperCase().includes(filter.toLocaleUpperCase())?<span>{person.name} {person.number} <button onClick={()=>deleteNo(person._id)}>Delete</button></span>:`` } 
+            
           </div>
          )
             }
