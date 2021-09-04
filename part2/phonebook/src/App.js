@@ -18,6 +18,7 @@ const App=()=>{
     service.getAllNo()
     .then(response=>{
       setPersons(response.data)
+      response.data.map(res=>console.log(res,'hello'))
     })
   },[])
   const addPerson = (e)=>{
@@ -26,7 +27,7 @@ const App=()=>{
     if(checker.length>0){
       
       if(window.confirm(`${newName} is already in phone book wanna update the phone no`)){
-        service.updateNo(getPersonId(newName)[0].id,{name:newName,number:newNo})
+        service.updateNo(getPersonId(newName)[0]._id,{name:newName,number:newNo})
         .then(service.getAllNo)
         .then((response)=>setPersons(response.data))
         .then(setMessage({type:'success',message:`${newName} has been updated Successfully`}))
@@ -48,7 +49,7 @@ const App=()=>{
     
   }
   const getPersonname=(id)=>{
-    return persons.filter((person)=>person.id===id)
+    return persons.filter((person)=>person._id===id)
   }
   const getPersonId=(name)=>{
     return persons.filter((person)=>person.name===name)
