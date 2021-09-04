@@ -3,11 +3,17 @@ import AddPerson from'./Components/Addperson'
 import FilterPerson  from './Components/FilterPerson';
 import ShowPerson from './Components/ShowPerson'
 import service from './services/PhoneNo'
+import './App.css'
+import Notification from './Components/Notification'
 const App=()=>{
   const [persons,setPersons] = useState([])
   const [newName,setNewname] = useState('')
   const [newNo,setNewNo] = useState('')
   const [filter,setFilter] = useState('')
+  const [message,setMessage] = useState({
+    type:'',
+    message:''
+  })
   useEffect(()=>{
     service.getAllNo()
     .then(response=>{
@@ -23,13 +29,21 @@ const App=()=>{
         service.updateNo(getPersonId(newName)[0].id,{name:newName,number:newNo})
         .then(service.getAllNo)
         .then((response)=>setPersons(response.data))
+        .then(setMessage({type:'success',message:`${newName} has been updated Successfully`}))
+        setTimeout(()=>{
+          setMessage({type:'',message:''})
+        },3000)
       }
+      console.log(message)
     }
     else{
       service.addNewNo({name:newName,number:newNo})
       .then(service.getAllNo)
       .then((response)=>setPersons(response.data))
-      
+      .then(setMessage({type:'success',message:`${newName} has been added Successfully`}))
+      setTimeout(()=>{
+        setMessage({type:'',message:''})
+      },3000)
     }
     
   }
@@ -41,9 +55,17 @@ const App=()=>{
   }
   const deletePerson =(id)=>{
     if(window.confirm(`Do You Really wanna delete ${getPersonname(id)[0].name} `)){
+      
       service.deleteNo(id)
-      .then(service.getAllNo)
-      .then((response)=>setPersons(response.data))
+      .then((response)=>{
+        setMessage({type:'success',message:`${getPersonname(id)[0].name} is removed from server`})
+      })
+      .catch((error)=>{
+        setMessage({type:'error',message:`${getPersonname(id)[0].name} is not found in server`})
+      })
+      setTimeout(()=>{
+        setMessage({type:'',message:''})
+      },3000)
     }
   }
   const handelNameChange=(e)=>{
@@ -58,6 +80,8 @@ const App=()=>{
   return (
     <div>
       <h1>PhoneBook</h1>
+     {message.message===''?``: <Notification messages={message}/>}
+      <p></p>
       <FilterPerson handelFilterChange={handelFilterChange}/>
       <br></br>
       <AddPerson addPerson={addPerson} handelNoChange={handelNoChange} handelNameChange={handelNameChange}/>
