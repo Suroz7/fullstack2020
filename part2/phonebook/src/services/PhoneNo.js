@@ -1,5 +1,6 @@
 import axios from 'axios'
-const url='http://localhost:3001/persons'
+const url='http://localhost:3001/api/persons'
+const durl='http://localhost:3001/api/delete'
 const getAllNo =()=>{
     return axios.get(url)
     
@@ -9,7 +10,7 @@ const addNewNo = (newNo)=>{
     
 }
 const deleteNo = (id)=>{
-    return axios.delete(`${url}/${id}`)
+    return axios.delete(`${durl}/${id}`)
 }
 const updateNo =(id,newPerson)=>{
     return axios.put(`${url}/${id}`,newPerson)
