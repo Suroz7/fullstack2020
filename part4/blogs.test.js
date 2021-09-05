@@ -48,3 +48,41 @@ describe('Total Likes',()=>{
         expect(result).toBe(25)
     })
 })
+describe('Favourite Blog,',() =>{
+    const blogs =[
+        {
+            "tilte":"Hello world 1",
+            "author":"Suroz Suroz",
+            "url":"http://localhost:3001/api/blogs",
+            "likes":1
+        },
+        {
+            "tilte":"Hello world 2",
+            "author":"Suroz Suroz",
+            "url":"http://localhost:3001/api/blogs",
+            "likes":1
+        },
+        {
+            "tilte":"Hello world 3",
+            "author":"Suroz Suroz",
+            "url":"http://localhost:3001/api/blogs",
+            "likes":19
+        },
+        {
+            "tilte":"Hello world 4",
+            "author":"Suroz Suroz",
+            "url":"http://localhost:3001/api/blogs",
+            "likes":1
+        }
+    ]
+    test('return fav blog',()=>{
+        const result = listhelper.favoriteBlog(blogs)
+        expect(result).toEqual([{
+            "tilte":"Hello world 3",
+            "author":"Suroz Suroz",
+            "url":"http://localhost:3001/api/blogs",
+            "likes":19
+        }])
+    })
+
+})
