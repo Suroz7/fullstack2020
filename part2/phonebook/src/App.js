@@ -25,14 +25,17 @@ const App=()=>{
     e.preventDefault()
     const checker = persons.filter((person)=>person.name===newName)
     if(checker.length>0){
-      
       if(window.confirm(`${newName} is already in phone book wanna update the phone no`)){
         service.updateNo(getPersonId(newName)[0]._id,{name:newName,number:newNo})
-        .then(service.getAllNo)
-        .then((response)=>setPersons(response.data))
-        .then(setMessage({type:'success',message:`${newName} has been updated Successfully`}))
+        .then((oks)=>setMessage({type:'success',message:`${newName} has been updated Successfully`}))
+        .catch(error=>setMessage({type:'error',message:`${error.message}`}))
         setTimeout(()=>{
           setMessage({type:'',message:''})
+          service.getAllNo()
+          .then(response=>{
+            setPersons(response.data)
+            response.data.map(res=>console.log(res,'hello'))
+          })
         },3000)
       }
       console.log(message)

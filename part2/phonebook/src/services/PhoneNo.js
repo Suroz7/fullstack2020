@@ -1,6 +1,6 @@
 import axios from 'axios'
-const url='http://localhost:3001/api/persons'
-const durl='http://localhost:3001/api/delete'
+const url='/api/persons'
+const durl='/api/delete'
 const getAllNo =()=>{
     return axios.get(url)
     
