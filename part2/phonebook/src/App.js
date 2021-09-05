@@ -39,12 +39,17 @@ const App=()=>{
     }
     else{
       service.addNewNo({name:newName,number:newNo})
-      .then(service.getAllNo)
-      .then((response)=>setPersons(response.data))
-      .then(setMessage({type:'success',message:`${newName} has been added Successfully`}))
+      .then((response)=>setMessage({type:'success',message:`${newName} has been added Successfully`}))
+      .catch(error=>setMessage({type:'error',message:`${error.message}`}))
       setTimeout(()=>{
         setMessage({type:'',message:''})
+        service.getAllNo()
+        .then(response=>{
+          setPersons(response.data)
+          response.data.map(res=>console.log(res,'hello'))
+         })
       },3000)
+      
     }
     
   }
@@ -65,6 +70,11 @@ const App=()=>{
       })
       setTimeout(()=>{
         setMessage({type:'',message:''})
+        service.getAllNo()
+        .then(response=>{
+          setPersons(response.data)
+          response.data.map(res=>console.log(res,'hello'))
+        })
       },3000)
     }
   }
