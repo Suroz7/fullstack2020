@@ -1,0 +1,16 @@
+const mongoose = require('mongoose')
+const express = require('express')
+const cors = require('cors')
+const logger = require('./utils/logger')
+const config = require('./utils/config')
+const blogRouter = require('./controller/blogs')
+const app = express()
+app.use(express.json())
+app.use(cors())
+app.use('',blogRouter)
+const url=config.MONGODB_URI
+logger.info(`Connecting to Mongo DB with ${url}....`)
+mongoose.connect(url)
+.then(()=>logger.info('Connected To MongoDB'))
+.catch((error)=>logger.error(`Couldn't connect due to ${error.message}`))
+module.exports = app
