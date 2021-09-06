@@ -13,7 +13,7 @@ test('Blogs are returned as json',async ()=>{
 },10000)
 test('Bolgs have length of 10',async ()=>{
    const response =  await api.get('/api/blogs')
-    expect(response.body).toHaveLength(0)
+    expect(response.body).toHaveLength(5)
 },100000)
 test('Blogs have unique identifier as id',async()=>{
     const response = await api.get('/api/blogs')
