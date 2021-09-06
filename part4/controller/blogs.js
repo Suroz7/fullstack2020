@@ -23,15 +23,11 @@ blogRouter.get('/api/blogs',async (request,response)=>{
 })
 blogRouter.post('/api/blogs',async (request,response)=>{
     const body = request.body
-    const token = checktoken(request)
-    if(!token){
+    if(!request.token||!request.decodedtoken){
+        
         return response.status(401).json({error:'Not Authorized'})
     }
-    const deceoded = jwt.verify(token,process.env.SECRET)
-    if(!deceoded){
-        return response.status(401).json({error:'Not Authorized'})
-    }
-    const users = await user.findById(deceoded.id) 
+    const users = await user.findById(request.decodedtoken.id) 
     if(!body.title||!body.url){
         return response.status(400).send('Bad Request')
     }
