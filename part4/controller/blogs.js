@@ -8,6 +8,9 @@ blogRouter.get('/api/blogs',(request,response)=>{
 })
 blogRouter.post('/api/blogs',async (request,response)=>{
     const body = request.body
+    if(!body.title||!body.url){
+        return response.status(400).send('Bad Request')
+    }
     const newBlog = new Blog({
         title:body.title,
         author:body.author,

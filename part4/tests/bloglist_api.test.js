@@ -51,6 +51,15 @@ test('if like not found it will be 0',async()=>{
     const newlikechecker = await allblog.body.find(blog=>blog.title==="wtf is gn onse")
     expect(newlikechecker.like).toBe(0)
 },1000000)
+test('return 400 if title or url not found',async()=>{
+    const newBlog ={
+        title:"hello",
+        author:"like check",
+    }
+    await api.post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+},10000)
 afterAll(()=>{
     mongoose.connection.close()
 })
