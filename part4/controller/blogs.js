@@ -49,7 +49,7 @@ blogRouter.delete('/api/blogs/:id',async (request,response)=>{
     }
     try {
         const blog = await Blog.findById(id)
-        if(!(blog.user.toString()===request.decodedtoken.id)){
+        if(!(blog.user.toString()===request.decodedtoken.id.toString())){
             return response.status(401).json({error:'Not Authorized'})
         }
         await blog.remove()
