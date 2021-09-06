@@ -2,15 +2,6 @@ const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 const user = require('../models/user')
-const jwt = require('jsonwebtoken')
-
-const checktoken = (request)=>{
-    const auth = request.get('authorization')
-    if(auth&&auth.toLowerCase().startsWith('bearer')){
-        return auth.substring(7)
-    }
-    return null
-}
 blogRouter.get('/api/blogs',async (request,response)=>{
    try {
        const blogs = await Blog.find({}).populate('user',{username:1,name:1})
@@ -51,12 +42,21 @@ blogRouter.post('/api/blogs',async (request,response)=>{
     }
 })
 blogRouter.delete('/api/blogs/:id',async (request,response)=>{
+    id =request.params.id
+    if(!request.token||!request.decodedtoken){
+        
+        return response.status(401).json({error:'Not Authorized'})
+    }
     try {
-        await Blog.findByIdAndDelete(request.params.id)
-        return response.status(200).send('Blog Deleted')
+        const blog = await Blog.findById(id)
+        if(!(blog.user.toString()===request.decodedtoken.id)){
+            return response.status(401).json({error:'Not Authorized'})
+        }
+        await blog.remove()
+        return response.status(200).json({message:'The Blog Has been deleted'})
+
     } catch (error) {
-        logger.error(error.message)
-        return response.status(500).send('Internal Server error')
+        return response.status(404).json({error:'Not Found Check Id'})
         
     }
 })
@@ -78,4 +78,5 @@ blogRouter.put('/api/blogs/:id',async(request,response)=>{
 
     }
 })
+
 module.exports = blogRouter
