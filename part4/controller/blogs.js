@@ -2,8 +2,15 @@ const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 const user = require('../models/user')
+const jwt = require('jsonwebtoken')
 
-
+const checktoken = (request)=>{
+    const auth = request.get('authorization')
+    if(auth&&auth.toLowerCase().startsWith('bearer')){
+        return auth.substring(7)
+    }
+    return null
+}
 blogRouter.get('/api/blogs',async (request,response)=>{
    try {
        const blogs = await Blog.find({}).populate('user',{username:1,name:1})
@@ -15,9 +22,16 @@ blogRouter.get('/api/blogs',async (request,response)=>{
     
 })
 blogRouter.post('/api/blogs',async (request,response)=>{
-    const users =  await user.find({})
-
     const body = request.body
+    const token = checktoken(request)
+    if(!token){
+        return response.status(401).json({error:'Not Authorized'})
+    }
+    const deceoded = jwt.verify(token,process.env.SECRET)
+    if(!deceoded){
+        return response.status(401).json({error:'Not Authorized'})
+    }
+    const users = await user.findById(deceoded.id) 
     if(!body.title||!body.url){
         return response.status(400).send('Bad Request')
     }
@@ -26,12 +40,12 @@ blogRouter.post('/api/blogs',async (request,response)=>{
         author:body.author,
         url:body.url,
         like:body.like||0,
-        user:users[0].id
+        user:users.id
     })
     try {
         const savedBlog = await newBlog.save()
-        users[0].blog = users[0].blog.concat(savedBlog.id)
-        await users[0].save()
+        users.blog = users.blog.concat(savedBlog.id)
+        await users.save()
         return response.status(200).json(savedBlog.toJSON())
 
     } catch (error) {
