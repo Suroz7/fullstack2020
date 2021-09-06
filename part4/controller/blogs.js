@@ -33,7 +33,7 @@ blogRouter.post('/api/blogs',async (request,response)=>{
         const savedBlog = await newBlog.save()
         users.blog = users.blog.concat(savedBlog.id)
         await users.save()
-        return response.status(200).json(savedBlog.toJSON())
+        return response.status(200).json(savedBlog)
 
     } catch (error) {
         logger.error(error.message)
