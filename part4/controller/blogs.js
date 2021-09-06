@@ -32,6 +32,7 @@ blogRouter.post('/api/blogs',async (request,response)=>{
 
     } catch (error) {
         logger.error(error.message)
+        return response.status(500).send('Internal Server error')
         
     }
 })
@@ -41,9 +42,26 @@ blogRouter.delete('/api/blogs/:id',async (request,response)=>{
         return response.status(200).send('Blog Deleted')
     } catch (error) {
         logger.error(error.message)
+        return response.status(500).send('Internal Server error')
         
     }
-    
+})
 
+blogRouter.put('/api/blogs/:id',async(request,response)=>{
+    try {
+        const blog = await Blog.findById(request.params.id)
+        const {title,author,url,like} = request.body
+        blog.title=title||blog.title
+        blog.author=author||blog.author
+        blog.url=url||blog.url
+        blog.like=like||blog.like
+        const res = await blog.save()
+        return response.status(200).json(res.toJSON())
+    } catch (error) {
+
+        logger.error(error.message)
+        return response.status(500).send('Internal Server error')
+
+    }
 })
 module.exports = blogRouter
