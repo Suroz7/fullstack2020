@@ -1,20 +1,22 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
+const user = require('../models/user')
 
 
 blogRouter.get('/api/blogs',async (request,response)=>{
    try {
-       const blogs = await Blog.find({})
+       const blogs = await Blog.find({}).populate('user',{username:1,name:1})
        return response.status(200).json(blogs)
    } catch (error) {
 
        logger.error(error.message)
    }
-    Blog.find({})
-    .then(blogs=>response.status(200).json(blogs))
+    
 })
 blogRouter.post('/api/blogs',async (request,response)=>{
+    const users =  await user.find({})
+
     const body = request.body
     if(!body.title||!body.url){
         return response.status(400).send('Bad Request')
@@ -23,10 +25,13 @@ blogRouter.post('/api/blogs',async (request,response)=>{
         title:body.title,
         author:body.author,
         url:body.url,
-        like:body.like||0
+        like:body.like||0,
+        user:users[0].id
     })
     try {
         const savedBlog = await newBlog.save()
+        users[0].blog = users[0].blog.concat(savedBlog.id)
+        await users[0].save()
         return response.status(200).json(savedBlog.toJSON())
 
     } catch (error) {

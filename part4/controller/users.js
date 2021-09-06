@@ -30,7 +30,7 @@ userRouter.post('',async(request,response)=>{
 })
 userRouter.get('',async(request,response)=>{
     try {
-       const users = await User.find({}).select('-password')
+       const users = await User.find({}).populate('blog',{title:1,author:1,url:1})
        return response.status(200).json(users)
 
     } catch (error) {
