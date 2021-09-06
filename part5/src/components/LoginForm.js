@@ -6,12 +6,12 @@ const [username,setUsername] = useState('')
 const [password,setPassword]= useState('')
 const handleLogin = async(e)=>{
     e.preventDefault()
-    console.log(username,password)
     const response = await login.login(username,password)
-    console.log(response,'hello')
     if(response.token){
+        window.localStorage.setItem('logedinuser',JSON.stringify(response))
         what(true)
         who(response.name)
+
     }
 }
 return (
