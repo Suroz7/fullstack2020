@@ -47,7 +47,7 @@ const App = () => {
       <div>
         {type && <Notification type={type} messages={notification}/>}
         <p>{user} is Logged in</p>
-        <button onClick={logOutHandler}>LogOut</button>
+        <button id="logout"onClick={logOutHandler}>LogOut</button>
         <br/>
         <AddBlog reloder={loadall} type={setType} notification={SetNotification} />
         <h2>blogs</h2>

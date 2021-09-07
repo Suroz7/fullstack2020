@@ -24,13 +24,13 @@ const Blog = ({ blog,reloder }) => {
   }
   return(
     <div style={ blogStyle }>
-      { blog.title } { blog.author } <button onClick={() => setshowfulldetail(!showfulldetail)}>{showfulldetail?'Hide':'Show'}</button>
+      { blog.title } { blog.author } <button  id="sd" onClick={() => setshowfulldetail(!showfulldetail)}>{showfulldetail?'Hide':'Show'}</button>
       <br/>
       {showfulldetail &&
     <div>
       {blog.url}
       <br/>
-    likes : {blog.like}  <button onClick={() => like(blog)}>Like</button>
+    likes : {blog.like}  <button id="like" onClick={() => like(blog)}>Like</button>
       <br/>
       {blog.user.username===lusername&&
     <button onClick={ () => deleteblog(blog) } style={ { color:'red' } }>Delete</button>
