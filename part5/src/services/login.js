@@ -7,7 +7,7 @@ const login = async (uname,password) => {
     password:password
     }
     const request = await axios.post(baseUrl,body)
-    return request.data
+    return request
 }
 const loginService ={ 
     login

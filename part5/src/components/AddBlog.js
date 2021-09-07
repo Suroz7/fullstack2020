@@ -1,18 +1,31 @@
 import React ,{useState} from 'react'
 import service from '../services/blogs'
 const AddBlog=(props)=>{
+    const {reloder,type,notification} = props
     const [title,setTitle] = useState('')
     const [author,setAuthor] = useState('')
     const [url,setUrl] = useState('')
     const [like,setLike] = useState('')
     const addHandler = async (e)=>{
         e.preventDefault()
-        await service.addNew(title,author,url,like)
-        props.reloder()
-        setTitle('')
-        setUrl('')
-        setAuthor('')
-        setLike('')
+        try {
+           const response =  await service.addNew(title,author,url,like)
+           console.log(response,'helo') 
+           type('success')
+            notification(`New Blog ${title} by ${author} is added succesfully`)
+            reloder()
+            setTitle('')
+            setUrl('')
+            setAuthor('')
+            setLike('')
+            setTimeout(()=>{
+                type('')
+                notification('')
+            },5000)
+        } catch (error) {
+            
+        }
+        
     }
     return(
         <div>

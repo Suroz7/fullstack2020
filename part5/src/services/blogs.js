@@ -20,9 +20,10 @@ const addNew = async (title,author,url,like)=>{
   }
   try {
     const response = await axios.post(`${baseUrl}`,newBlog,config)
-    return response.data
+    return response
   } catch (error) {
-    return error
+    
+    return error 
   }
   
 
