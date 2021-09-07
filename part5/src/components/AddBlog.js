@@ -1,7 +1,7 @@
 import React ,{useState} from 'react'
 import service from '../services/blogs'
 const AddBlog=(props)=>{
-    const {reloder,type,notification} = props
+    const {reloder,type,notification,cf} = props
     const [title,setTitle] = useState('')
     const [author,setAuthor] = useState('')
     const [url,setUrl] = useState('')
@@ -9,15 +9,15 @@ const AddBlog=(props)=>{
     const addHandler = async (e)=>{
         e.preventDefault()
         try {
-           const response =  await service.addNew(title,author,url,like)
-           console.log(response,'helo') 
-           type('success')
+           await service.addNew(title,author,url,like)
+            type('success')
             notification(`New Blog ${title} by ${author} is added succesfully`)
             reloder()
             setTitle('')
             setUrl('')
             setAuthor('')
             setLike('')
+            cf(false)
             setTimeout(()=>{
                 type('')
                 notification('')
@@ -64,6 +64,8 @@ const AddBlog=(props)=>{
                 />
                 <br/>
                 <button type='submit'>Create</button>
+                <br/>
+                <br/>
             </form>
         </div>
     )

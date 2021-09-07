@@ -11,6 +11,7 @@ const App = () => {
   const [user,setuser] = useState('')
   const [type,setType] = useState('')
   const [notification,SetNotification] = useState('')
+  const [showbf,setShowBf] = useState(false)
   const loadall=async()=>{
     const response = await blogService.getAll()
     setBlogs(response)
@@ -45,7 +46,9 @@ const App = () => {
     <div>
       {type && <Notification type={type} messages={notification}/>}
       <p>{user} is Logged in</p> <button onClick={logOutHandler}>LogOut</button>
-      <AddBlog reloder={loadall} type={setType} notification={SetNotification}/>
+      <br/>
+      {showbf && <AddBlog reloder={loadall} type={setType} notification={SetNotification} cf={setShowBf}/>}
+      <button onClick={()=>setShowBf(!showbf)}>{showbf?`Close Form`:`Create a new Blog`}</button>
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog._id} blog={blog} />

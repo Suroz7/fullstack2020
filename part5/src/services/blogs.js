@@ -6,10 +6,10 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 const addNew = async (title,author,url,like)=>{
-  const token = JSON.parse(localStorage.getItem('logedinuser')).token
+  const token = JSON.parse(localStorage.getItem('logedinuser'))
   const config={
     headers:{
-      'Authorization':`bearer ${token}`,
+      'Authorization':`bearer ${token.data.token}`,
     }
   }
   const newBlog={
@@ -22,7 +22,6 @@ const addNew = async (title,author,url,like)=>{
     const response = await axios.post(`${baseUrl}`,newBlog,config)
     return response
   } catch (error) {
-    
     return error 
   }
   
