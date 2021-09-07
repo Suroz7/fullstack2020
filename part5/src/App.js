@@ -13,7 +13,10 @@ const App = () => {
   const [notification,SetNotification] = useState('')
   const loadall=async()=>{
     const response = await blogService.getAll()
-    setBlogs(response)
+    const sortedlist = response.sort((a,b)=>{
+      return b.like - a.like
+    })
+    setBlogs(sortedlist)
   }
   const logOutHandler =()=>{
     window.localStorage.removeItem('logedinuser')
