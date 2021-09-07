@@ -33,7 +33,7 @@ const Blog = ({ blog,reloder }) => {
     likes : {blog.like}  <button id="like" onClick={() => like(blog)}>Like</button>
       <br/>
       {blog.user.username===lusername&&
-    <button onClick={ () => deleteblog(blog) } style={ { color:'red' } }>Delete</button>
+    <button id="delete" onClick={ () => deleteblog(blog) } style={ { color:'red' } }>Delete</button>
       }
     </div>
       }

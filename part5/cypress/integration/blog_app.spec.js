@@ -40,6 +40,7 @@ describe('Blog app',function(){
 })
 describe('for like',function(){
     beforeEach(function(){
+        window.localStorage.removeItem('logedinuser')
         cy.request('POST', 'http://localhost:3001/api/testing/reset')
         const testuser = {
             username:"tester",
@@ -61,5 +62,10 @@ describe('for like',function(){
         cy.get('#sd').click()
         cy.get('#like').click()
         cy.contains('likes : 1')
+    })
+    it('you can delete it ',function(){
+        cy.get('#sd').click()
+        cy.get('#delete').click()
+        cy.should('not.contain','testing blog tester author')
     })
 })
