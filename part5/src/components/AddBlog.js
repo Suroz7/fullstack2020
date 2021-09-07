@@ -1,23 +1,18 @@
 import React ,{ useState } from 'react'
 import service from '../services/blogs'
 const AddBlog=(props) => {
-  const { addHandler } = props
+  const { reloder,type,notification } = props
   const [title,setTitle] = useState('')
   const [author,setAuthor] = useState('')
   const [url,setUrl] = useState('')
   const [like,setLike] = useState('')
-  const [showbf,setShowBf] = useState(true)
-  const addHandleru = async (e) => {
+  const [showbf,setShowBf] = useState(false)
+  const addHandler = async (e) => {
     e.preventDefault()
     try {
-      //await service.addNew(title,author,url,like)
-      //type('success')
-      //notification(`New Blog ${title} by ${author} is added succesfully`)
-      addHandler({
-        title,
-        author,
-        url
-      })
+      await service.addNew(title,author,url,like)
+      type('success')
+      notification(`New Blog ${title} by ${author} is added succesfully`)
       reloder()
       setTitle('')
       setUrl('')
@@ -36,12 +31,11 @@ const AddBlog=(props) => {
     return(
       <div>
         <h2>Add A New Blog</h2>
-        <form onSubmit={addHandleru} id='addblog'>
+        <form onSubmit={addHandler}>
           <label htmlFor='title'>Title:   </label>
           <input name='title'
             type="text"
             value ={title}
-            id='title'
             onChange={(e) => setTitle(e.target.value)}
           />
           <br/>
@@ -50,7 +44,6 @@ const AddBlog=(props) => {
             name='author'
             type='text'
             value ={author}
-            id='author'
             onChange={(e) => setAuthor(e.target.value)}
           />
           <br/>
@@ -59,7 +52,6 @@ const AddBlog=(props) => {
             name='url'
             type='text'
             value ={url}
-            id='url'
             onChange={(e) => setUrl(e.target.value)}
           />
           <br/>
@@ -68,7 +60,6 @@ const AddBlog=(props) => {
             name='like'
             type="number"
             value ={like}
-            id='like'
             onChange={(e) => setLike(e.target.value)}
           />
           <br/>

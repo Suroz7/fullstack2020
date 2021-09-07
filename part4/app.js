@@ -21,5 +21,8 @@ app.use(middleware.userExtractor)
 app.use('',blogRouter)
 app.use('/api/user',userRouter)
 app.use('/api/login',loginRouter)
-
+if(process.env.NODE_ENV === 'test'){
+    const testingRouter = require('./controller/testing')
+    app.use('/api/testing',testingRouter)
+}
 module.exports = app
