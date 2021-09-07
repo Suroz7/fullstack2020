@@ -9,10 +9,21 @@ const App = () => {
   const [user,setuser] = useState('')
 
   useEffect(() => {
+    const userunparsed = window.localStorage.getItem('logedinuser')
+    const userprsed = JSON.parse(userunparsed)
+    if(userunparsed){
+      setLstate(true)
+      setuser(userprsed.name)
+    }
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
   }, [])
+  const logOutHandler =()=>{
+    window.localStorage.removeItem('logedinuser')
+    setLstate(false)
+    setuser('')
+  }
   if(!lstate){
     return(
     <LoginForm what={setLstate} who={setuser}/>
@@ -23,7 +34,7 @@ const App = () => {
   return (
     
     <div>
-      <p>{user} is Logged in</p>
+      <p>{user} is Logged in</p> <button onClick={logOutHandler}>LogOut</button>
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog._id} blog={blog} />
