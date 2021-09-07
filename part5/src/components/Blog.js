@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import service from '../services/blogs'
 import PropTypes from 'prop-types'
 const Blog = ({ blog,reloder }) => {
- // const token = JSON.parse(localStorage.getItem('logedinuser'))
- // const lusername = token.data.username
+  const token = JSON.parse(localStorage.getItem('logedinuser'))
+  const lusername = token.data.username
   const [showfulldetail,setshowfulldetail] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -32,9 +32,9 @@ const Blog = ({ blog,reloder }) => {
       <br/>
     likes : {blog.like}  <button onClick={() => like(blog)}>Like</button>
       <br/>
-      {/* {blog.user.username===lusername&&
+      {blog.user.username===lusername&&
     <button onClick={ () => deleteblog(blog) } style={ { color:'red' } }>Delete</button>
-      } */}
+      }
     </div>
       }
     </div>

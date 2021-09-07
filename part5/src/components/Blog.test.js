@@ -9,9 +9,7 @@ test('renders only title and author',() => {
         url:'tester',
         like:10
     }
-    const fn = () => {
-        return  null
-    }
+    const fn = jest.fn()
     const component = render(
         <Blog blog={blog} reloder={fn}/>
     )
@@ -26,9 +24,7 @@ test('view shows url and like',() => {
         url:'tester',
         like:10
     }
-    const fn = () => {
-        return  null
-    }
+    const fn = jest.fn()
     const component = render(
         <Blog blog={blog} reloder={fn}/>
     )
