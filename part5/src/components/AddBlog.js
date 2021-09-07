@@ -33,7 +33,9 @@ const AddBlog=(props) => {
         <h2>Add A New Blog</h2>
         <form onSubmit={addHandler}>
           <label htmlFor='title'>Title:   </label>
-          <input name='title'
+          <input
+            id="title"
+            name='title'
             type="text"
             value ={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -41,6 +43,7 @@ const AddBlog=(props) => {
           <br/>
           <label htmlFor='author'>Author: </label>
           <input
+            id="author"
             name='author'
             type='text'
             value ={author}
@@ -49,6 +52,7 @@ const AddBlog=(props) => {
           <br/>
           <label htmlFor='url'>Url: </label>
           <input
+            id="url"
             name='url'
             type='text'
             value ={url}
@@ -63,7 +67,7 @@ const AddBlog=(props) => {
             onChange={(e) => setLike(e.target.value)}
           />
           <br/>
-          <button type='submit'>Create</button>
+          <button  id="create" type='submit'>Create</button>
           <br/>
           <br/>
           <button onClick={() => setShowBf(false)}>Close </button>
@@ -73,7 +77,7 @@ const AddBlog=(props) => {
   }
   else{
     return(
-      <button onClick={() => setShowBf(true)}>Create A new Blog </button>
+      <button className='btn' id="addblog" name="addblog"onClick={() => setShowBf(true)}>Create A new Blog </button>
     )
   }
 }

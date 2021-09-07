@@ -24,4 +24,16 @@ describe('Blog app',function(){
         cy.get('#login-btn').click()
         cy.contains('tester is Logged in')
     })
+    it('loger can post a blog',function(){
+        cy.get('#username').type('tester')
+        cy.get('#password').type('testerpassword')
+        cy.get('#login-btn').click()
+        cy.get('#addblog').click()
+        cy.get('#title').type('testing blog')
+        cy.get('#author').type('tester author')
+        cy.get('#url').type('hello')
+        cy.get('#create').click()
+        cy.contains('New Blog testing blog by tester author is added succesfully')
+
+    })
 })
