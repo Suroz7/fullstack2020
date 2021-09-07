@@ -1,11 +1,12 @@
 import React ,{useState} from 'react'
 import service from '../services/blogs'
 const AddBlog=(props)=>{
-    const {reloder,type,notification,cf} = props
+    const {reloder,type,notification} = props
     const [title,setTitle] = useState('')
     const [author,setAuthor] = useState('')
     const [url,setUrl] = useState('')
     const [like,setLike] = useState('')
+    const [showbf,setShowBf] = useState(false)
     const addHandler = async (e)=>{
         e.preventDefault()
         try {
@@ -17,7 +18,7 @@ const AddBlog=(props)=>{
             setUrl('')
             setAuthor('')
             setLike('')
-            cf(false)
+            setShowBf(false)
             setTimeout(()=>{
                 type('')
                 notification('')
@@ -27,6 +28,7 @@ const AddBlog=(props)=>{
         }
         
     }
+    if(showbf){
     return(
         <div>
             <h2>Add A New Blog</h2>
@@ -66,8 +68,15 @@ const AddBlog=(props)=>{
                 <button type='submit'>Create</button>
                 <br/>
                 <br/>
+                <button onClick={()=>setShowBf(false)}>Close </button>
             </form>
         </div>
     )
+    }
+    else{
+        return(
+            <button onClick={()=>setShowBf(true)}>Create A new Blog </button>
+        )
+    }
 }
 export default AddBlog
