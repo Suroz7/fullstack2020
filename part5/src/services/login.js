@@ -9,5 +9,7 @@ const login = async (uname,password) => {
     const request = await axios.post(baseUrl,body)
     return request.data
 }
-
-export default { login }
+const loginService ={ 
+    login
+}
+export default loginService 
