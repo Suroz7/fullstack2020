@@ -5,7 +5,7 @@ const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then(response => response.data)
 }
-const addNew = async (title,author,url,like)=>{
+const addNew = async (title,author,url,like) => {
   const token = JSON.parse(localStorage.getItem('logedinuser'))
   const config={
     headers:{
@@ -22,10 +22,10 @@ const addNew = async (title,author,url,like)=>{
     const response = await axios.post(`${baseUrl}`,newBlog,config)
     return response
   } catch (error) {
-    return error 
+    return error
   }
 }
-const like = async (blog)=>{
+const like = async (blog) => {
   blog.like=blog.like+1
   try {
     await axios.put(`${baseUrl}/${blog._id}`,blog)
@@ -34,7 +34,7 @@ const like = async (blog)=>{
     return error
   }
 }
-const deleteblog =async (id)=>{
+const deleteblog =async (id) => {
   const token = JSON.parse(localStorage.getItem('logedinuser'))
   const config={
     headers:{
@@ -42,12 +42,12 @@ const deleteblog =async (id)=>{
     }
   }
   try {
-   const response =  await axios.delete(`${baseUrl}/${id}`,config)
-   return response
+    const response =  await axios.delete(`${baseUrl}/${id}`,config)
+    return response
   } catch (error) {
     return error
   }
-} 
+}
 const blog = {
   getAll,
   addNew,

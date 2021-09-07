@@ -11,14 +11,14 @@ const App = () => {
   const [user,setuser] = useState('')
   const [type,setType] = useState('')
   const [notification,SetNotification] = useState('')
-  const loadall=async()=>{
+  const loadall = async() => {
     const response = await blogService.getAll()
-    const sortedlist = response.sort((a,b)=>{
+    const sortedlist = response.sort((a,b) => {
       return b.like - a.like
     })
     setBlogs(sortedlist)
   }
-  const logOutHandler =()=>{
+  const logOutHandler =() => {
     window.localStorage.removeItem('logedinuser')
     setLstate(false)
     setuser('')
@@ -30,32 +30,31 @@ const App = () => {
       setLstate(true)
       setuser(userprsed.data.name)
     }
-    loadall() 
+    loadall()
   }, [])
 
   if(!lstate){
     return(
       <div>
         {type && <Notification type={type} messages={notification}/>}
-    <LoginForm what={setLstate} who={setuser} type={setType} notification={SetNotification}/>
-    </div>
+        <LoginForm what={setLstate} who={setuser} type={setType} notification={SetNotification}/>
+      </div>
     )
   }
   else{
 
-  return (
-    
-    <div>
-      {type && <Notification type={type} messages={notification}/>}
-      <p>{user} is Logged in</p> <button onClick={logOutHandler}>LogOut</button>
-      <br/>
-      <AddBlog reloder={loadall} type={setType} notification={SetNotification} />
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog._id} blog={blog} reloder ={loadall} />
-      )}
-    </div>
-  )
+    return (
+      <div>
+        {type && <Notification type={type} messages={notification}/>}
+        <p>{user} is Logged in</p> <button onClick={logOutHandler}>LogOut</button>
+        <br/>
+        <AddBlog reloder={loadall} type={setType} notification={SetNotification} />
+        <h2>blogs</h2>
+        {blogs.map(blog =>
+          <Blog key={blog._id} blog={blog} reloder ={loadall} />
+        )}
+      </div>
+    )
   }
 }
 

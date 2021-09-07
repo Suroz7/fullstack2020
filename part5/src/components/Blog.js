@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import service from '../services/blogs'
-const Blog = ({blog,reloder}) => {
+import PropTypes from 'prop-types'
+const Blog = ({ blog,reloder }) => {
   const token = JSON.parse(localStorage.getItem('logedinuser'))
   const lusername = token.data.username
   const [showfulldetail,setshowfulldetail] = useState(false)
@@ -11,33 +12,37 @@ const Blog = ({blog,reloder}) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  const like = async (blog)=>{
+  const like = async (blog) => {
     await service.like(blog)
     reloder()
   }
-  const deleteblog = async (blog)=>{
+  const deleteblog = async (blog) => {
     if(window.confirm(`Do you really wanna delete ${blog.title } by ${blog.author}`)){
       await service.deleteblog(blog._id)
       reloder()
     }
   }
   return(
-  <div style={blogStyle}>
-    {blog.title} {blog.author} <button onClick={()=>setshowfulldetail(!showfulldetail)}>{showfulldetail?'Hide':'Show'}</button>
-    <br/>
-    {showfulldetail &&
+    <div style={ blogStyle }>
+      { blog.title } { blog.author } <button onClick={() => setshowfulldetail(!showfulldetail)}>{showfulldetail?'Hide':'Show'}</button>
+      <br/>
+      {showfulldetail &&
     <div>
-    {blog.url}
-    <br/>
-    likes : {blog.like}  <button onClick={()=>like(blog)}>Like</button>
-    <br/>
-    {blog.user.username===lusername&&
-    <button onClick={()=>deleteblog(blog)} style={{color:'red'}}>Delete</button>
-    }
+      {blog.url}
+      <br/>
+    likes : {blog.like}  <button onClick={() => like(blog)}>Like</button>
+      <br/>
+      {blog.user.username===lusername&&
+    <button onClick={ () => deleteblog(blog) } style={ { color:'red' } }>Delete</button>
+      }
     </div>
-    }
-  </div>  
+      }
+    </div>
   )
-  }
+}
+Blog.propTypes={
+  blog:PropTypes.object.isRequired,
+  reloder:PropTypes.func.isRequired
 
+}
 export default Blog

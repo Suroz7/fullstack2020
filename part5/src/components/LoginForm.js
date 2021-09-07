@@ -1,14 +1,14 @@
-import React ,{useState} from 'react'
+import React ,{ useState } from 'react'
 import login from '../services/login'
-const LoginForm = (props)=>{
-const {what,who,type,notification} =props
-const [username,setUsername] = useState('')
-const [password,setPassword]= useState('')
-const handleLogin = async(e)=>{
+const LoginForm = (props) => {
+  const { what,who,type,notification } =props
+  const [username,setUsername] = useState('')
+  const [password,setPassword]= useState('')
+  const handleLogin = async(e) => {
     e.preventDefault()
     try {
       const response = await login.login(username,password)
-     if(response.data.token){
+      if(response.data.token){
         window.localStorage.setItem('logedinuser',JSON.stringify(response))
         what(true)
         who(response.name)
@@ -17,15 +17,13 @@ const handleLogin = async(e)=>{
       console.log(error,'hello')
       type('error')
       notification('Username or Password Wrong')
-      setTimeout(()=>{
+      setTimeout(() => {
         type('')
         notification('')
       },5000)
     }
-    
-    
-}
-return (
+  }
+  return (
     <div>
       <form onSubmit={handleLogin}>
         <div>
