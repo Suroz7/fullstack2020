@@ -23,7 +23,7 @@ const Blog = ({ blog,reloder }) => {
     }
   }
   return(
-    <div style={ blogStyle }>
+    <div id="list" style={ blogStyle }>
       { blog.title } { blog.author } <button  id="sd" onClick={() => setshowfulldetail(!showfulldetail)}>{showfulldetail?'Hide':'Show'}</button>
       <br/>
       {showfulldetail &&

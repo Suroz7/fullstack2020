@@ -61,6 +61,7 @@ const AddBlog=(props) => {
           <br/>
           <label htmlFor='like'>Likes: </label>
           <input
+            id="like"
             name='like'
             type="number"
             value ={like}
