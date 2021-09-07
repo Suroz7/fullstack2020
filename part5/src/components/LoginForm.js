@@ -11,7 +11,7 @@ const LoginForm = (props) => {
       if(response.data.token){
         window.localStorage.setItem('logedinuser',JSON.stringify(response))
         what(true)
-        who(response.name)
+        who(response.data.name)
       }
     } catch (error) {
       console.log(error,'hello')
