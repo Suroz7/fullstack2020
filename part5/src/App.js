@@ -49,7 +49,7 @@ const App = () => {
       <AddBlog reloder={loadall} type={setType} notification={SetNotification} />
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog._id} blog={blog}  />
+        <Blog key={blog._id} blog={blog} reloder ={loadall} />
       )}
     </div>
   )

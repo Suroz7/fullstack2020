@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-const Blog = ({blog}) => {
+import service from '../services/blogs'
+const Blog = ({blog,reloder}) => {
   const [showfulldetail,setshowfulldetail] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -7,6 +8,11 @@ const Blog = ({blog}) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+  const like = async (blog)=>{
+    console.log('clikced')
+    await service.like(blog)
+    reloder()
   }
   return(
   <div style={blogStyle}>
@@ -16,7 +22,7 @@ const Blog = ({blog}) => {
     <div>
     {blog.url}
     <br/>
-    likes : {blog.like}  <button>Like</button>
+    likes : {blog.like}  <button onClick={()=>like(blog)}>Like</button>
     </div>}
   </div>  
   )

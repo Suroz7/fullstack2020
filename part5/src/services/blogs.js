@@ -24,13 +24,20 @@ const addNew = async (title,author,url,like)=>{
   } catch (error) {
     return error 
   }
-  
-
-
+}
+const like = async (blog)=>{
+  blog.like=blog.like+1
+  try {
+    await axios.put(`${baseUrl}/${blog._id}`,blog)
+    
+  } catch (error) {
+    return error
+  }
 }
 const blog = {
   getAll,
-  addNew
+  addNew,
+  like
 }
 
 export default blog
