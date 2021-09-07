@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import service from '../services/blogs'
 const Blog = ({blog,reloder}) => {
+  const token = JSON.parse(localStorage.getItem('logedinuser'))
+  const lusername = token.data.username
   const [showfulldetail,setshowfulldetail] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -10,9 +12,14 @@ const Blog = ({blog,reloder}) => {
     marginBottom: 5
   }
   const like = async (blog)=>{
-    console.log('clikced')
     await service.like(blog)
     reloder()
+  }
+  const deleteblog = async (blog)=>{
+    if(window.confirm(`Do you really wanna delete ${blog.title } by ${blog.author}`)){
+      await service.deleteblog(blog._id)
+      reloder()
+    }
   }
   return(
   <div style={blogStyle}>
@@ -23,7 +30,12 @@ const Blog = ({blog,reloder}) => {
     {blog.url}
     <br/>
     likes : {blog.like}  <button onClick={()=>like(blog)}>Like</button>
-    </div>}
+    <br/>
+    {blog.user.username===lusername&&
+    <button onClick={()=>deleteblog(blog)} style={{color:'red'}}>Delete</button>
+    }
+    </div>
+    }
   </div>  
   )
   }
