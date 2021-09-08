@@ -31,6 +31,14 @@ const anecdotesAtStart = [
         })
         return newstate
       }
+      case 'ADD':{
+        const newstate  = state.concat({
+          content:action.data.anecdote,
+          id:getId(),
+          votes:0
+        })
+        return newstate
+      }
     }
   
     return state
@@ -41,6 +49,15 @@ const anecdotesAtStart = [
       type:'VOTE',
       data:{id}
       }
+    return action
+  }
+  export const addAnecdotes = (anecdote) =>{
+    const action = {
+      type:'ADD',
+      data:{
+        anecdote:anecdote
+      }
+    }
     return action
   }
   export default reducer
