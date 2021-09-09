@@ -11,7 +11,6 @@ const AnecdoteList = () => {
       const newmessage = `You voted ${(anecdotes.find(anc=>anc.id===id)).content}`
       dispatch(setnotification(newmessage))
       setTimeout(()=>{
-          console.log('oho noob saral')
         dispatch(removenotification())
       },5000)
     }
