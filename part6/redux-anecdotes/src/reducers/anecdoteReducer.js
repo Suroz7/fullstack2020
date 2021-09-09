@@ -39,6 +39,7 @@ const anecdotesAtStart = [
         })
         return newstate
       }
+      
     }
   
     return state
