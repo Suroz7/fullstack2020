@@ -1,6 +1,15 @@
 import React from 'react'
-const AnecdoteForm = (props) => {
-    const { addAnecdote } = props
+import { useDispatch } from 'react-redux'
+import { addAnecdotes } from '../reducers/anecdoteReducer'
+const AnecdoteForm = () => {
+    const dispatch = useDispatch()
+    const addAnecdote = (e) => {
+        e.preventDefault()
+        const anecdote = e.target.anecdote.value
+        e.target.anecdote.value = ''
+        dispatch(addAnecdotes(anecdote))
+      }
+    
     return(
         <div>
             <h2>create new</h2>

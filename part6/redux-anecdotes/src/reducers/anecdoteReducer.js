@@ -44,7 +44,6 @@ const anecdotesAtStart = [
     return state
   }
   export const votes = (id) => {
-    console.log('Hey i ama called')
     const action={
       type:'VOTE',
       data:{id}
