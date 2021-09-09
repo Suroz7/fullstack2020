@@ -4,6 +4,7 @@ import { votes,addAnecdotes } from './reducers/anecdoteReducer'
 
 const App = () => {
   const anecdotes = useSelector(state => state)
+  const sortedanecdoeds = anecdotes.sort((anecdoteA,anecdoteB) =>anecdoteB.votes-anecdoteA.votes)
   const dispatch = useDispatch()
 
   const vote = (id) => {
@@ -20,7 +21,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {sortedanecdoeds.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
