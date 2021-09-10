@@ -21,7 +21,6 @@ const AnecdoteList =  () => {
     }
     useEffect(async () => {
       const anecdotes = await service.getAll()
-      console.log(anecdotes,'0ho1')
       dispatch(initializes(anecdotes))
     },[])
     return (

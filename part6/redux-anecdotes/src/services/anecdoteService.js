@@ -4,7 +4,13 @@ const getAll = async ()=>{
     const response = await axios.get(base_url)
     return response.data
 }
+const addNew = async (anecdote) => {
+    const response = await axios.post(base_url,anecdote)
+    return response.data
+
+}
 const service = {
-    getAll:getAll
+    getAll:getAll,
+    addNew:addNew
 }
 export default service

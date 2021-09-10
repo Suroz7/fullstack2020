@@ -1,4 +1,3 @@
-  const getId = () => (100000 * Math.random()).toFixed(0)
   const reducer =  (state = [], action) => {
     switch (action.type){
       case 'INITS':{
@@ -16,11 +15,7 @@
         return newstate
       }
       case 'ADD':{
-        const newstate  = state.concat({
-          content:action.data.anecdote,
-          id:getId(),
-          votes:0
-        })
+        const newstate= state.concat(action.data.anecdote)
         return newstate
       }
       
