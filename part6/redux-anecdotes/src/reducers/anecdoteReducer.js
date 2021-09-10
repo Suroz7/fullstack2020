@@ -1,3 +1,5 @@
+  import service from '../services/anecdoteService'
+  const getId = () => (100000 * Math.random()).toFixed(0)
   const reducer =  (state = [], action) => {
     switch (action.type){
       case 'INITS':{
@@ -31,19 +33,26 @@
     return action
   }
   export const addAnecdotes = (anecdote) =>{
-    const action = {
-      type:'ADD',
-      data:{
-        anecdote:anecdote
-      }
+    return async dispatch => {
+      const newanecdote = await service.addNew({
+        content:anecdote,
+        id:getId(),
+        votes:0
+      })
+      dispatch({
+        type:'ADD',
+        data:newanecdote
+      })
     }
-    return action
   }
   export const initializes =  (anecdote) => {
-    const action = {
-      type:'INITS',
-      data:anecdote
+    return async dispatch => {
+      const anecdotes = await service.getAll()
+      dispatch({
+        type:'INITS',
+        data:anecdotes
+      })
     }
-    return action
+    
   }
   export default reducer

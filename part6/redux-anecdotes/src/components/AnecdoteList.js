@@ -5,10 +5,7 @@ import { setnotification, removenotification } from "../reducers/notificationRed
 import service from "../services/anecdoteService"
 const AnecdoteList =  () => {
     const dispatch = useDispatch()
-    // const hh =await service.getAll()
-    // console.log(hh,'hello')
     const anecdotes = useSelector(state => state.anecdote)
-    //console.log(anecdotes)
     const filter = useSelector(state => state.filter)
     const sortedanecdoeds = anecdotes.sort((anecdoteA,anecdoteB) =>anecdoteB.votes-anecdoteA.votes)
     const vote = (id) => {
@@ -20,8 +17,7 @@ const AnecdoteList =  () => {
       },5000)
     }
     useEffect(async () => {
-      const anecdotes = await service.getAll()
-      dispatch(initializes(anecdotes))
+      dispatch(initializes())
     },[])
     return (
         <div>
