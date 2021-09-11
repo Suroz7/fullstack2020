@@ -26,11 +26,16 @@
     return state
   }
   export const votes = (id) => {
-    const action={
-      type:'VOTE',
-      data:{id}
-      }
-    return action
+    return async dispatch => {
+      const response = await service.vote(id)
+      dispatch(
+        {
+          type:'VOTE',
+          data:{id}
+          }
+      )
+    }
+    
   }
   export const addAnecdotes = (anecdote) =>{
     return async dispatch => {

@@ -9,8 +9,16 @@ const addNew = async (anecdote) => {
     return response.data
 
 }
+const vote = async (id) => {
+    const response = await axios.get(`${base_url}/${id}`)
+    const whose = response.data
+    whose.votes = whose.votes+1
+    const res = await axios.put(`${base_url}/${id}`,whose)
+    return res.data
+}
 const service = {
     getAll:getAll,
-    addNew:addNew
+    addNew:addNew,
+    vote:vote
 }
 export default service
