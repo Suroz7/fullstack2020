@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Switch , Route , Link ,BrowserRouter as Router } from 'react-router-dom'
+import { Switch , Route , Link ,BrowserRouter as Router, Redirect, useParams } from 'react-router-dom'
 const Menu = () => {
   const padding = {
     paddingRight: 5
@@ -17,11 +17,22 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <Link to ={`/anecdotes/${anecdote.id}`}> <li key={anecdote.id} >{anecdote.content}</li> </Link>)}
     </ul>
   </div>
 )
-
+const Anecdote = (props) => {
+ const  {anecdoteById,anecdote} = props
+ const id = useParams().id
+ console.log(id)
+  const which = anecdoteById(id)
+  return(
+    <div>
+      <h2>{which.content} by {which.author}</h2>
+      Has {which.id} Vote
+    </div>
+  )
+}
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
@@ -137,7 +148,11 @@ const App = () => {
           </Route>
           <Route path='/create'>
             <Menu/>
-            <CreateNew/>
+            <CreateNew addNew={addNew}/>
+          </Route>
+          <Route path='/anecdotes/:id'>
+            <Menu/>
+           <Anecdote anecdoteById={anecdoteById} anecdote={anecdotes}/>
           </Route>
         </Switch>
         <Footer />
