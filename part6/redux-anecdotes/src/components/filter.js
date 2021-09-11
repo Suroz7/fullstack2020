@@ -1,11 +1,10 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { handelFilterKey } from '../reducers/filterReducer'
-const Filter = () =>{
-    const dispatch = useDispatch()
+const Filter = ({handelFilterKey}) =>{
     const handleChange = (e) => {
         const newfilter = e.target.value
-        dispatch(handelFilterKey(newfilter))
+        handelFilterKey(newfilter)
     }
     const style = {
         marginBottom:10
@@ -16,4 +15,5 @@ const Filter = () =>{
         </div>
     )
 }
-export default Filter
+const newFilter  = connect(null,{handelFilterKey})(Filter)
+export default newFilter
