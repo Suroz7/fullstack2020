@@ -1,4 +1,5 @@
 const initialState = ''
+let howMuch = 0
 const reducer = (state=initialState,action) =>{
     switch(action.type){
         case 'SET':
@@ -12,11 +13,12 @@ const reducer = (state=initialState,action) =>{
 export default reducer
 export const setnotification = (message,time) =>{
     return async dispatch => {
+        clearTimeout(howMuch)
         dispatch({
             type:'SET',
             data:message
         })
-        setTimeout(() => {
+      howMuch =   setTimeout(() => {
             dispatch({
                 type:'REMOVE'
             })
