@@ -17,7 +17,7 @@
         return newstate
       }
       case 'ADD':{
-        const newstate= state.concat(action.data.anecdote)
+        const newstate= state.concat(action.data)
         return newstate
       }
       
