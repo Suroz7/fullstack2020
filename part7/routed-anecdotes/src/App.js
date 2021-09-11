@@ -17,19 +17,18 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <Link to ={`/anecdotes/${anecdote.id}`}> <li key={anecdote.id} >{anecdote.content}</li> </Link>)}
+      {anecdotes.map(anecdote => <Link to ={`/anecdotes/${anecdote.id}`} key={anecdote.id}> <li  >{anecdote.content}</li> </Link>)}
     </ul>
   </div>
 )
 const Anecdote = (props) => {
  const  {anecdoteById,anecdote} = props
  const id = useParams().id
- console.log(id)
   const which = anecdoteById(id)
   return(
     <div>
       <h2>{which.content} by {which.author}</h2>
-      Has {which.id} Vote
+      Has {which.votes} Vote
     </div>
   )
 }
@@ -69,11 +68,16 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    props.setNotification(`${content } By ${author } is added`)
+    setTimeout(() => {
+      props.setNotification('')
+    },10000)
   }
 
   return (
     <div>
       <h2>create a new anecdote</h2>
+      <h3>{props.notification}</h3>
       <form onSubmit={handleSubmit}>
         <div>
           content
@@ -148,7 +152,7 @@ const App = () => {
           </Route>
           <Route path='/create'>
             <Menu/>
-            <CreateNew addNew={addNew}/>
+            <CreateNew addNew={addNew} setNotification={setNotification} notification={notification}/>
           </Route>
           <Route path='/anecdotes/:id'>
             <Menu/>
