@@ -1,7 +1,7 @@
 import React,{ useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { votes,initializes } from "../reducers/anecdoteReducer"
-import { setnotification, removenotification } from "../reducers/notificationReducer"
+import { setnotification } from "../reducers/notificationReducer"
 import service from "../services/anecdoteService"
 const AnecdoteList =  () => {
     const dispatch = useDispatch()
@@ -11,10 +11,7 @@ const AnecdoteList =  () => {
     const vote = (id) => {
       dispatch(votes(id))
       const newmessage = `You voted ${(anecdotes.find(anc=>anc.id===id)).content}`
-      dispatch(setnotification(newmessage))
-      setTimeout(()=>{
-        dispatch(removenotification())
-      },5000)
+      dispatch(setnotification(newmessage,5))
     }
     useEffect(async () => {
       dispatch(initializes())

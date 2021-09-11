@@ -10,16 +10,17 @@ const reducer = (state=initialState,action) =>{
     }
 }
 export default reducer
-export const setnotification = (message) =>{
-    const action = {
-        type:'SET',
-        data:message
+export const setnotification = (message,time) =>{
+    return async dispatch => {
+        dispatch({
+            type:'SET',
+            data:message
+        })
+        setTimeout(() => {
+            dispatch({
+                type:'REMOVE'
+            })
+        }, time*1000)
     }
-    return action
-}
-export const removenotification = () => {
-    const action = {
-        type:'REMOVE'
-    }
-    return action
+    
 }
