@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notifier'
-
-const App = () => {
-  const [blogs, setBlogs] = useState([])
+import { connect, useDispatch } from 'react-redux'
+import { inits } from './reducers/blogReducer'
+const App = (props) => {
+  const dispatch = useDispatch()
   const [lstate,setLstate] = useState(false)
   const [user,setuser] = useState('')
-  const loadall = async() => {
-    const response = await blogService.getAll()
-    const sortedlist = response.sort((a,b) => {
-      return b.like - a.like
-    })
-    setBlogs(sortedlist)
-  }
   const logOutHandler =() => {
     window.localStorage.removeItem('logedinuser')
     setLstate(false)
@@ -28,7 +21,7 @@ const App = () => {
       setLstate(true)
       setuser(userprsed.data.name)
     }
-    loadall()
+    dispatch(inits())
   }, [])
 
   if(!lstate){
@@ -47,14 +40,17 @@ const App = () => {
         <p>{user} is Logged in</p>
         <button id="logout"onClick={logOutHandler}>LogOut</button>
         <br/>
-        <AddBlog reloder={loadall}   />
+        <AddBlog />
         <h2>blogs</h2>
-        {blogs.map(blog =>
-          <Blog key={blog._id} blog={blog} reloder ={loadall} />
+        {props.blogs.map(blog =>
+          <Blog key={blog._id} blog={blog}  />
         )}
       </div>
     )
   }
 }
-
-export default App
+const mapStateToProps = (state) => ({
+  blogs:state.blog
+})
+const NewApp = connect(mapStateToProps)(App)
+export default NewApp

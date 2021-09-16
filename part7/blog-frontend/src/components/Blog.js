@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import service from '../services/blogs'
 import PropTypes from 'prop-types'
-const Blog = ({ blog,reloder }) => {
+const Blog = ({ blog }) => {
   const token = JSON.parse(localStorage.getItem('logedinuser'))
   const lusername = token.data.username
   const [showfulldetail,setshowfulldetail] = useState(false)
@@ -14,12 +14,10 @@ const Blog = ({ blog,reloder }) => {
   }
   const like = async (blog) => {
     await service.like(blog)
-    reloder()
   }
   const deleteblog = async (blog) => {
     if(window.confirm(`Do you really wanna delete ${blog.title } by ${blog.author}`)){
       await service.deleteblog(blog._id)
-      reloder()
     }
   }
   return(
@@ -42,7 +40,5 @@ const Blog = ({ blog,reloder }) => {
 }
 Blog.propTypes={
   blog:PropTypes.object.isRequired,
-  reloder:PropTypes.func.isRequired
-
 }
 export default Blog

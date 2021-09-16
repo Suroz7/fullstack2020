@@ -1,9 +1,8 @@
 import React ,{ useState } from 'react'
-import service from '../services/blogs'
 import { useDispatch } from 'react-redux'
 import { setnotification } from '../reducers/notificationReducers'
-const AddBlog=(props) => {
-  const { reloder } = props
+import { adds } from '../reducers/blogReducer'
+const AddBlog=() => {
   const [title,setTitle] = useState('')
   const [author,setAuthor] = useState('')
   const [url,setUrl] = useState('')
@@ -13,12 +12,11 @@ const AddBlog=(props) => {
   const addHandler = async (e) => {
     e.preventDefault()
     try {
-      await service.addNew(title,author,url,like)
+      dispatch(adds(title,author,url,like))
       dispatch(setnotification({
         message:`New Blog ${title} by ${author} is added succesfully`,
         type:'success'
       },10))
-      reloder()
       setTitle('')
       setUrl('')
       setAuthor('')
