@@ -5,6 +5,15 @@ const blogReducer = (state=[],action) => {
     return action.data
   case 'NEW':
     return [...state,action.data]
+  case 'LIKE': {
+    const newstate = state.filter(fil => fil._id!==action.data)
+    newstate.concat(action.data)
+    return newstate
+  }
+  case 'DELETE':{
+    const newstate = state.filter(fil => fil._id!==action.data)
+    return newstate
+  }
   default:
     return state
   }
@@ -25,10 +34,27 @@ export const inits = () => {
 export const adds = (title,author,url,like) => {
   return async dispatch => {
     const newblog = await blogService.addNew(title,author,url,like)
-    console.log(newblog)
     dispatch({
       type:'NEW',
       data:newblog.data
+    })
+  }
+}
+export const likes = (blog)  => {
+  return async dispatch => {
+    const response = await blogService.like(blog)
+    dispatch({
+      type:'LIKE',
+      data:response.data
+    })
+  }
+}
+export const delets = (id) => {
+  return async dispatch => {
+    await blogService.deleteblog(id)
+    dispatch({
+      type:'DELETE',
+      data:id
     })
   }
 }

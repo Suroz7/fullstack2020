@@ -28,8 +28,8 @@ const addNew = async (title,author,url,like) => {
 const like = async (blog) => {
   blog.like=blog.like+1
   try {
-    await axios.put(`${baseUrl}/${blog._id}`,blog)
-
+    const res = await axios.put(`${baseUrl}/${blog._id}`,blog)
+    return res
   } catch (error) {
     return error
   }

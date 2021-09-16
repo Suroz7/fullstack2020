@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import service from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { delets, likes } from '../reducers/blogReducer'
 const Blog = ({ blog }) => {
   const token = JSON.parse(localStorage.getItem('logedinuser'))
   const lusername = token.data.username
@@ -12,12 +13,15 @@ const Blog = ({ blog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
+  const dispatch = useDispatch()
   const like = async (blog) => {
-    await service.like(blog)
+    setshowfulldetail(false)
+    dispatch(likes(blog))
+    setshowfulldetail(true)
   }
   const deleteblog = async (blog) => {
     if(window.confirm(`Do you really wanna delete ${blog.title } by ${blog.author}`)){
-      await service.deleteblog(blog._id)
+      dispatch(delets(blog._id))
     }
   }
   return(
