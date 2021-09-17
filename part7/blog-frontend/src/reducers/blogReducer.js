@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { setusers } from './usersReducer'
 const blogReducer = (state=[],action) => {
   switch (action.type) {
   case 'INIT':
@@ -38,6 +39,7 @@ export const adds = (title,author,url,like) => {
       type:'NEW',
       data:newblog.data
     })
+    dispatch(setusers())
   }
 }
 export const likes = (blog)  => {
@@ -56,5 +58,6 @@ export const delets = (id) => {
       type:'DELETE',
       data:id
     })
+    dispatch(setusers())
   }
 }

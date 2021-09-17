@@ -6,6 +6,8 @@ import Notification from './components/Notifier'
 import { connect, useDispatch } from 'react-redux'
 import { inits } from './reducers/blogReducer'
 import { adds, logouts } from './reducers/userReducer'
+import Users from './components/Users'
+import { setusers } from './reducers/usersReducer'
 const App = (props) => {
   const dispatch = useDispatch()
   const [lstate,setLstate] = useState(false)
@@ -25,6 +27,7 @@ const App = (props) => {
       dispatch(adds(userprsed.data))
     }
     dispatch(inits())
+    dispatch(setusers())
   }, [])
 
   if(!lstate){
@@ -48,12 +51,17 @@ const App = (props) => {
         {props.blogs.map(blog =>
           <Blog key={blog._id} blog={blog}  />
         )}
+        <h2>Users In the System</h2>
+        {props.users.map(user =>
+          <Users key={user._id} user = {user} />
+        )}
       </div>
     )
   }
 }
 const mapStateToProps = (state) => ({
-  blogs:state.blog
+  blogs:state.blog,
+  users:state.users
 })
 const NewApp = connect(mapStateToProps)(App)
 export default NewApp
