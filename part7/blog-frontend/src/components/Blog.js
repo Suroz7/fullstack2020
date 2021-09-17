@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { delets, likes } from '../reducers/blogReducer'
+import { useParams } from 'react-router'
 const Blog = ({ blog }) => {
+  const id = useParams().id
+  const which = blog.find(blog => blog._id===id)
   const token = JSON.parse(localStorage.getItem('logedinuser'))
   const lusername = token.data.username
-  const [showfulldetail,setshowfulldetail] = useState(false)
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -15,9 +17,7 @@ const Blog = ({ blog }) => {
   }
   const dispatch = useDispatch()
   const like = async (blog) => {
-    setshowfulldetail(false)
     dispatch(likes(blog))
-    setshowfulldetail(true)
   }
   const deleteblog = async (blog) => {
     if(window.confirm(`Do you really wanna delete ${blog.title } by ${blog.author}`)){
@@ -26,23 +26,21 @@ const Blog = ({ blog }) => {
   }
   return(
     <div id="list" style={ blogStyle }>
-      { blog.title } { blog.author } <button  id="sd" onClick={() => setshowfulldetail(!showfulldetail)}>{showfulldetail?'Hide':'Show'}</button>
+      { which.title } { which.author }
       <br/>
-      {showfulldetail &&
-    <div>
-      {blog.url}
-      <br/>
-    likes : {blog.like}  <button id="like" onClick={() => like(blog)}>Like</button>
-      <br/>
-      {blog.user.username===lusername&&
-    <button id="delete" onClick={ () => deleteblog(blog) } style={ { color:'red' } }>Delete</button>
-      }
-    </div>
-      }
+      <div>
+        {which.url}
+        <br/>
+    likes : {which.like}  <button id="like" onClick={() => like(which)}>Like</button>
+        <br/>
+        {which.user.username===lusername&&
+    <button id="delete" onClick={ () => deleteblog(which) } style={ { color:'red' } }>Delete</button>
+        }
+      </div>
     </div>
   )
 }
 Blog.propTypes={
-  blog:PropTypes.object.isRequired,
+  blog:PropTypes.array.isRequired,
 }
 export default Blog

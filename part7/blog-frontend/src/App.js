@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notifier'
@@ -10,6 +9,8 @@ import Users from './components/Users'
 import { setusers } from './reducers/usersReducer'
 import { Switch,Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import User from './components/User'
+import Blogs from './components/Blogs'
+import Blog from './components/Blog'
 const App = (props) => {
   const dispatch = useDispatch()
   const [lstate,setLstate] = useState(false)
@@ -54,7 +55,7 @@ const App = (props) => {
               <AddBlog />
               <h2>blogs</h2>
               {props.blogs.map(blog =>
-                <Blog key={blog._id} blog={blog}  />
+                <Link to = {`/blog/${blog._id}`} key={blog._id} > <Blogs key={blog._id} title={blog.title} author={blog.author}  /></Link>
               )}
               <h2>Users In the System</h2>
               {props.users.map(user =>
@@ -63,6 +64,9 @@ const App = (props) => {
             </Route>
             <Route path='/user/:id'>
               <User user={props.users}/>
+            </Route>
+            <Route path='/blog/:id'>
+              <Blog blog = {props.blogs}/>
             </Route>
           </Switch>
         </Router>
