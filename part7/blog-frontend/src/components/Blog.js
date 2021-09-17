@@ -2,10 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { delets, likes } from '../reducers/blogReducer'
-import { useParams } from 'react-router'
+import {  Redirect, useParams } from 'react-router'
 const Blog = ({ blog }) => {
   const id = useParams().id
   const which = blog.find(blog => blog._id===id)
+  if(which===undefined){
+    return <Redirect to='/'/>
+  }
   const token = JSON.parse(localStorage.getItem('logedinuser'))
   const lusername = token.data.username
   const blogStyle = {

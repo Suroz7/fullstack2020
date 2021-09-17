@@ -4,23 +4,18 @@ import AddBlog from './components/AddBlog'
 import Notification from './components/Notifier'
 import { connect, useDispatch } from 'react-redux'
 import { inits } from './reducers/blogReducer'
-import { adds, logouts } from './reducers/userReducer'
+import { adds } from './reducers/userReducer'
 import Users from './components/Users'
 import { setusers } from './reducers/usersReducer'
 import { Switch,Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import User from './components/User'
 import Blogs from './components/Blogs'
 import Blog from './components/Blog'
+import Menu from './components/Menu'
 const App = (props) => {
   const dispatch = useDispatch()
   const [lstate,setLstate] = useState(false)
   const [user,setuser] = useState('')
-  const logOutHandler =() => {
-    window.localStorage.removeItem('logedinuser')
-    setLstate(false)
-    setuser('')
-    dispatch(logouts())
-  }
   useEffect(() => {
     const userunparsed = window.localStorage.getItem('logedinuser')
     if(userunparsed){
@@ -49,24 +44,32 @@ const App = (props) => {
           <Switch>
             <Route exact path='/'>
               <Notification />
+              <Menu ls={setLstate}/>
               <p>{user} is Logged in</p>
-              <button id="logout"onClick={logOutHandler}>LogOut</button>
               <br/>
               <AddBlog />
+            </Route>
+            <Route path='/user/:id'>
+              <Menu ls={setLstate}/>
+              <User user={props.users}/>
+            </Route>
+            <Route path='/blog/:id'>
+              <Menu ls={setLstate}/>
+              <Blog blog = {props.blogs}/>
+            </Route>
+            <Route exact path='/blogs'>
+              <Menu ls ={setLstate}/>
               <h2>blogs</h2>
               {props.blogs.map(blog =>
                 <Link to = {`/blog/${blog._id}`} key={blog._id} > <Blogs key={blog._id} title={blog.title} author={blog.author}  /></Link>
               )}
+            </Route>
+            <Route exact path='/users'>
+              <Menu ls={setLstate}/>
               <h2>Users In the System</h2>
               {props.users.map(user =>
                 <Link key={user._id} to ={`/user/${user._id}`}> <Users key={user._id } user={user}/> </Link>
               )}
-            </Route>
-            <Route path='/user/:id'>
-              <User user={props.users}/>
-            </Route>
-            <Route path='/blog/:id'>
-              <Blog blog = {props.blogs}/>
             </Route>
           </Switch>
         </Router>
