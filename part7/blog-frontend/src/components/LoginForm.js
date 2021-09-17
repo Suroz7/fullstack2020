@@ -2,6 +2,7 @@ import React ,{ useState } from 'react'
 import login from '../services/login'
 import { useDispatch } from 'react-redux'
 import { setnotification } from '../reducers/notificationReducers'
+import { adds } from '../reducers/userReducer'
 const LoginForm = (props) => {
   const { what,who } =props
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const LoginForm = (props) => {
         window.localStorage.setItem('logedinuser',JSON.stringify(response))
         what(true)
         who(response.data.name)
+        dispatch(adds(response.data))
       }
     } catch (error) {
       console.log(error,'hello')

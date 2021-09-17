@@ -5,6 +5,7 @@ import AddBlog from './components/AddBlog'
 import Notification from './components/Notifier'
 import { connect, useDispatch } from 'react-redux'
 import { inits } from './reducers/blogReducer'
+import { adds, logouts } from './reducers/userReducer'
 const App = (props) => {
   const dispatch = useDispatch()
   const [lstate,setLstate] = useState(false)
@@ -13,6 +14,7 @@ const App = (props) => {
     window.localStorage.removeItem('logedinuser')
     setLstate(false)
     setuser('')
+    dispatch(logouts())
   }
   useEffect(() => {
     const userunparsed = window.localStorage.getItem('logedinuser')
@@ -20,6 +22,7 @@ const App = (props) => {
       const userprsed = JSON.parse(userunparsed)
       setLstate(true)
       setuser(userprsed.data.name)
+      dispatch(adds(userprsed.data))
     }
     dispatch(inits())
   }, [])
