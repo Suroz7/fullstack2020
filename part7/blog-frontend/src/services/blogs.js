@@ -1,9 +1,16 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/api/blogs'
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
+const getAll =  () => {
+  const request =  axios.get(baseUrl)
   return request.then(response => response.data)
+}
+const comment = async (comment,id) => {
+  comment = {
+    comment:comment
+  }
+  const response = await axios.post(`http://localhost:3001/api/blogs/${id}/comments`,comment)
+  return response
 }
 const addNew = async (title,author,url,like) => {
   const token = JSON.parse(localStorage.getItem('logedinuser'))
@@ -52,7 +59,8 @@ const blog = {
   getAll,
   addNew,
   like,
-  deleteblog
+  deleteblog,
+  comment
 }
 
 export default blog

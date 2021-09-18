@@ -84,10 +84,8 @@ blogRouter.post('/api/blogs/:id/comments',async(request,response) => {
         return response.status(400).send({error:'Comment Is Required'})
     }
     try {
-        console.log(request.body.comment)
         const which = await Blog.findById(blogid)
         which.comment = which.comment.concat(request.body.comment)
-        console.log(which)
         const res = await which.save()
         return response.status(200).send(res.toJSON())
 

@@ -61,3 +61,12 @@ export const delets = (id) => {
     dispatch(setusers())
   }
 }
+export const commentss = (id,comment) => {
+  return async dispatch => {
+    await blogService.comment(comment,id)
+    dispatch({
+      type:'ADDCOMMENT'
+    })
+    dispatch(inits())
+  }
+}
