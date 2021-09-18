@@ -120,14 +120,22 @@ const resolvers = {
       if(!args.author && !args.genre){
         return books
       }
-      if(args.author){
+      if(args.author&&!args.genre){
         return books.filter(book=>book.author===args.author)
       }
-      if(args.genre){
+      if(args.genre &&!args.author){
         return books.filter(book => {
          return book.genres.find(genre => genre===args.genre)
         })
       }
+      const newlist =  books.filter(book => {
+        if(book.author===args.author){
+         if(book.genres.find(genre => genre===args.genre)){
+           return book
+         }
+        }
+      })
+      return newlist
     },
     allAuthor : () => { return authors.map(author => {
       const bookCount = books.reduce(
