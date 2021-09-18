@@ -2,6 +2,7 @@ import React ,{ useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setnotification } from '../reducers/notificationReducers'
 import { adds } from '../reducers/blogReducer'
+import { Button,Container,Form } from 'react-bootstrap'
 const AddBlog=() => {
   const [title,setTitle] = useState('')
   const [author,setAuthor] = useState('')
@@ -9,8 +10,8 @@ const AddBlog=() => {
   const [like,setLike] = useState('')
   const [showbf,setShowBf] = useState(false)
   const dispatch = useDispatch()
-  const addHandler = async (e) => {
-    e.preventDefault()
+  const addHandler = async () => {
+    //e.preventDefault()
     try {
       dispatch(adds(title,author,url,like))
       dispatch(setnotification({
@@ -28,56 +29,58 @@ const AddBlog=() => {
   }
   if(showbf){
     return(
-      <div>
-        <h2>Add A New Blog</h2>
-        <form onSubmit={addHandler}>
-          <label htmlFor='title'>Title:   </label>
-          <input
-            id="title"
-            name='title'
-            type="text"
-            value ={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <br/>
-          <label htmlFor='author'>Author: </label>
-          <input
-            id="author"
-            name='author'
-            type='text'
-            value ={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-          <br/>
-          <label htmlFor='url'>Url: </label>
-          <input
-            id="url"
-            name='url'
-            type='text'
-            value ={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-          <br/>
-          <label htmlFor='like'>Likes: </label>
-          <input
-            id="like"
-            name='like'
-            type="number"
-            value ={like}
-            onChange={(e) => setLike(e.target.value)}
-          />
-          <br/>
-          <button  id="create" type='submit'>Create</button>
-          <br/>
-          <br/>
-          <button onClick={() => setShowBf(false)}>Close </button>
-        </form>
-      </div>
+      <Container >
+        <Form onSubmit={addHandler} >
+          <h2>Add A New Blog</h2>
+          <Form.Group className='mb-3' >
+            <Form.Label >Title:   </Form.Label>
+            <Form.Control
+              id="title"
+              name='title'
+              type="text"
+              value ={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className='mb-3' >
+            <Form.Label >Author: </Form.Label>
+            <Form.Control
+              id="author"
+              name='author'
+              type='text'
+              value ={author}
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label >Url: </Form.Label>
+            <Form.Control
+              id="url"
+              name='url'
+              type='text'
+              value ={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label >Likes: </Form.Label>
+            <Form.Control
+              id="like"
+              name='like'
+              type="number"
+              value ={like}
+              onChange={(e) => setLike(e.target.value)}
+            />
+          </Form.Group>
+          <Button  id="create" type='submit' onClick={() => addHandler()}>Create </Button>
+          <Button variant='danger'onClick={() => setShowBf(false)}>Close </Button>
+        </Form>
+      </Container>
     )
   }
   else{
     return(
-      <button className='btn' id="addblog" name="addblog"onClick={() => setShowBf(true)}>Create A new Blog </button>
+      <Button className='btn' id="addblog" name="addblog"onClick={() => setShowBf(true)}>Create A new Blog </Button>
     )
   }
 }

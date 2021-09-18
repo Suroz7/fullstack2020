@@ -9,7 +9,7 @@ const Blog = ({ blog }) => {
   const [comment,setComment] = useState('')
   const which = blog.find(blog => blog._id===id)
   if(which===undefined){
-    return <Redirect to='/'/>
+    return <Redirect to='/blogs'/>
   }
   const comments = async(e) => {
     e.preventDefault()

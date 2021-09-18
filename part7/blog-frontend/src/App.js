@@ -12,16 +12,15 @@ import User from './components/User'
 import Blogs from './components/Blogs'
 import Blog from './components/Blog'
 import Menu from './components/Menu'
+import { Container } from 'react-bootstrap'
 const App = (props) => {
   const dispatch = useDispatch()
   const [lstate,setLstate] = useState(false)
-  const [user,setuser] = useState('')
   useEffect(() => {
     const userunparsed = window.localStorage.getItem('logedinuser')
     if(userunparsed){
       const userprsed = JSON.parse(userunparsed)
       setLstate(true)
-      setuser(userprsed.data.name)
       dispatch(adds(userprsed.data))
     }
     dispatch(inits())
@@ -32,7 +31,7 @@ const App = (props) => {
     return(
       <div>
         <Notification />
-        <LoginForm what={setLstate} who={setuser} />
+        <LoginForm what={setLstate}  />
       </div>
     )
   }
@@ -45,9 +44,10 @@ const App = (props) => {
             <Route exact path='/'>
               <Notification />
               <Menu ls={setLstate}/>
-              <p>{user} is Logged in</p>
               <br/>
-              <AddBlog />
+              <Container>
+                <AddBlog />
+              </Container>
             </Route>
             <Route path='/user/:id'>
               <Menu ls={setLstate}/>
