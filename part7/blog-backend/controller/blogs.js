@@ -78,5 +78,22 @@ blogRouter.put('/api/blogs/:id',async(request,response)=>{
 
     }
 })
+blogRouter.post('/api/blogs/:id/comments',async(request,response) => {
+    const blogid = request.params.id
+    if(!request.body.comment){
+        return response.status(400).send({error:'Comment Is Required'})
+    }
+    try {
+        console.log(request.body.comment)
+        const which = await Blog.findById(blogid)
+        which.comment = which.comment.concat(request.body.comment)
+        console.log(which)
+        const res = await which.save()
+        return response.status(200).send(res.toJSON())
+
+    } catch (error) {
+        return response.status(500).send({error:'Internal Server Error'})
+    }
+})
 
 module.exports = blogRouter
