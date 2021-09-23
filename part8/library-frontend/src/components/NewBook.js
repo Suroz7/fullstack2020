@@ -1,11 +1,44 @@
 import React, { useState } from 'react'
-
+import { gql, useMutation} from '@apollo/client'
+const ADDBOOK = gql `
+mutation NewBook(
+  $title: String!
+  $author: String!
+  $published: Int!
+  $genres: [String!]!
+){
+  addBook(
+    title: $title,
+    author: $author,
+    published: $published,
+    genres: $genres
+  ) {
+    title,
+    author,
+  }
+}
+`
+const queryAllBooks = gql `
+query {
+  allBooks { 
+    title 
+    author
+    published 
+  }
+}
+`
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuhtor] = useState('')
-  const [published, setPublished] = useState('')
+  const [published, setPublished] = useState(0)
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+  const [ addBook ] = useMutation(ADDBOOK,{
+    refetchQueries:[{query:queryAllBooks}],
+    onError:(error)=>{
+      console.log(JSON.stringify(error, null, 2));
+    }
+    })
 
   if (!props.show) {
     return null
@@ -13,9 +46,8 @@ const NewBook = (props) => {
 
   const submit = async (event) => {
     event.preventDefault()
-    
-    console.log('add book...')
-
+    const res = await addBook({variables:{title,author,published,genres}})
+    console.log(res,'hello')
     setTitle('')
     setPublished('')
     setAuhtor('')
@@ -50,7 +82,7 @@ const NewBook = (props) => {
           <input
             type='number'
             value={published}
-            onChange={({ target }) => setPublished(target.value)}
+            onChange={({ target }) => setPublished(parseInt(target.value))}
           />
         </div>
         <div>
