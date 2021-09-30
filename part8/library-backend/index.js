@@ -58,6 +58,7 @@ const resolvers = {
         return books.filter(book=>book.author===args.author)
       }
       if(args.genre &&!args.author){
+        const books= await Book.find({})
         return books.filter(book => {
          return book.genres.find(genre => genre===args.genre)
         })
@@ -104,16 +105,15 @@ const resolvers = {
       return newbooks
 
     },
-    editAuthor:(root,args) => {
-      const whose = authors.find(author => author.name === args.name)
+    editAuthor:async (root,args) => {
+      const whose = await Author.findOne({name:args.name})
+      console.log(whose)
       if(!whose){
         return null
       }
-      const updatedAuthor = {...whose,born:args.setBornTo}
-      authors = authors.map(author => {
-       return author.name === updatedAuthor.name?updatedAuthor:author
-      })
-      return updatedAuthor
+      whose.born = args.setBornTo
+      await whose.save()
+      return whose
     }
   }
 }
