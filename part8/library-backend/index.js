@@ -51,7 +51,8 @@ const resolvers = {
     authorCount : () => Author.collection.countDocuments(),
     allBooks : async  (root,args) => {
       if(!args.author && !args.genre){
-        const allbook = await  Book.find({})
+        const allbook = await  Book.find({}).populate('author')
+        console.log(allbook)
         return allbook
       }
       if(args.author&&!args.genre){
@@ -92,12 +93,13 @@ const resolvers = {
           })
         }
       }
-      const books = new Book({...args,author:findAuthor})
       const addedAuthor = new Author({
         "name":args.author
       })
       try {
         await addedAuthor.save()
+        const findAuthor = await Author.findOne({name: args.author})
+        const books = new Book({...args,author:findAuthor})
         const res = await books.save()
         console.log(res,'res')
       } catch (error) {
