@@ -5,7 +5,6 @@ query {
   allAuthor {
     name
     born
-    bookCount
     id
   }
 }
@@ -63,11 +62,12 @@ const Authors = (props) => {
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
-              <td>{a.bookCount}</td>
+              {/* <td>{a.bookCount}</td> */}
             </tr>
           ):null}
         </tbody>
       </table>
+     { props.token && <div>
       <h2>Set Birth year for the author</h2>
           <form onSubmit={saveuByear}>
             <select name='authorname' id='name'>
@@ -79,8 +79,7 @@ const Authors = (props) => {
             </select>
             <input type="number" value = {setBornTo} onChange={(e)=>setByear(parseInt(e.target.value))}/>
             <button type="submit">Save Birth year</button>
-          </form>
-
+          </form></div>}
     </div>
   )
 }

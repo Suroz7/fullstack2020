@@ -121,8 +121,9 @@ const resolvers = {
         const books = new Book({...args,author:findAuthor})
         try {
          const res =  await books.save()
+         const which = await (await Book.findOne({title:args.title})).populate('author')
          console.log(res)
-         return res
+         return which
         } catch (error) {
           throw new UserInputError(error.message, {
             invalidArgs:args
@@ -144,8 +145,9 @@ const resolvers = {
           invalidArgs: args,
         })
       }
-      
-      return newbooks
+      const which = await (await Book.findOne({title:args.title})).populate('author')
+
+      return which
 
     },
     editAuthor:async (root,args,context) => {
@@ -198,7 +200,7 @@ const server = new ApolloServer({
     const auth = req ? req.headers.authorization : null    
     if (auth && auth.toLowerCase().startsWith('bearer ')) {      
       const decodedToken = jwt.verify(        
-        auth.substring(7), JWT_SECRET      
+        auth.substring(7), jwtkey      
         )      
         const currentUser = await User.findById(decodedToken.id)   
         return { currentUser }    

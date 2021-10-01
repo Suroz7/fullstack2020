@@ -14,7 +14,9 @@ mutation NewBook(
     genres: $genres
   ) {
     title,
-    author,
+    author{
+      name
+    },
   }
 }
 `
