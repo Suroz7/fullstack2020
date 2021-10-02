@@ -38,7 +38,7 @@ const NewBook = (props) => {
   const [ addBook ] = useMutation(ADDBOOK,{
     refetchQueries:[{query:queryAllBooks}],
     onError:(error)=>{
-      console.log(JSON.stringify(error, null, 2));
+      props.notifier(error.message);
     }
     })
 

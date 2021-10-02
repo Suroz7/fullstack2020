@@ -13,7 +13,7 @@ const LoginForm = (props) => {
   const [password, setPassword] = useState('')
   const [ login ] = useMutation(LOGIN, {    
       onError: (error) => {
-        console.log(error.graphQLErrors[0].message)
+       props.notifier(error.graphQLErrors[0].message)
     }
   })
 
@@ -32,8 +32,7 @@ const LoginForm = (props) => {
     
     const result = await login({ variables: { username, password } })
     if ( result.data ) {      
-        const token = result.data.login.value      
-        console.log(token)   
+        const token = result.data.login.value         
         props.settoken(token)   
         localStorage.setItem('library-user-token', token)    
       }  

@@ -1,13 +1,37 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
+const Errorshower = ({error}) => {  
+  if ( !error ) {    
+    return null  
+  }  
+  return (    
+    <div style={{color: 'red'}}>    
+    {error}    
+    </div>  
+    )
+ }
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token,setToken] = useState(null)
+  const [error, setError] = useState(null)
+  const notifier = (message) => {    
+    setError(message)    
+    setTimeout(() => {      
+      setError(null)    
+    }, 10000)  
+  }
+  useEffect(()=>{
+    const token = localStorage.getItem('library-user-token')
+    if(token){
+      setToken(token)
+    }
+  },[])
   return (
     <div>
+      <Errorshower error={error} />
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
@@ -18,7 +42,7 @@ const App = () => {
       </div>
 
       <Authors
-        show={page === 'authors'} token = {token}
+        show={page === 'authors'} token = {token} notifier={notifier}
       />
 
       <Books
@@ -26,10 +50,10 @@ const App = () => {
       />
 
       <NewBook
-        show={page === 'add'}
+        show={page === 'add'} notifier={notifier}
       />
       <LoginForm 
-      show={page==='login'} token={token} settoken = {setToken}/>
+      show={page==='login'} notifier={notifier} token={token} settoken = {setToken}/>
 
     </div>
   )
