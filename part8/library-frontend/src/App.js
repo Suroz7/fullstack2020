@@ -21,7 +21,7 @@ const App = () => {
     setError(message)    
     setTimeout(() => {      
       setError(null)    
-    }, 10000)  
+    }, 7000)  
   }
   useEffect(()=>{
     const token = localStorage.getItem('library-user-token')
@@ -53,7 +53,7 @@ const App = () => {
         show={page === 'add'} notifier={notifier}
       />
       <LoginForm 
-      show={page==='login'} notifier={notifier} token={token} settoken = {setToken}/>
+      show={page==='login'} setPage={setPage} notifier={notifier} token={token} settoken = {setToken}/>
 
     </div>
   )

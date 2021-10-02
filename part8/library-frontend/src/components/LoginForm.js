@@ -34,7 +34,8 @@ const LoginForm = (props) => {
     if ( result.data ) {      
         const token = result.data.login.value         
         props.settoken(token)   
-        localStorage.setItem('library-user-token', token)    
+        localStorage.setItem('library-user-token', token) 
+        props.setPage('authors')
       }  
   }
 
