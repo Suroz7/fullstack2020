@@ -7,6 +7,8 @@ const Book = require('./models/BookModel')
 const Author = require('./models/AuthorModel')
 const User = require('./models/UserModel')
 const jwt = require('jsonwebtoken')
+const { PubSub } = require('graphql-subscriptions')
+const pubsub = new PubSub()
 const passkey = process.env.PASSWORD
 const MONGODB_URI = process.env.MONGODB_URI
 const jwtkey = process.env.SECRET
@@ -28,6 +30,9 @@ const typeDefs = gql`
   type Query {
     bookCount:Int!
     allBooks(author:String,genre:String): [Book!]!
+    authorCount:Int!
+    allAuthor:[Author!]!
+    who:User
   }
   type Mutation {
     addBook(
@@ -37,17 +42,28 @@ const typeDefs = gql`
       genres:[String!]!
     ):Book
     editAuthor(name:String,setBornTo:Int):Author
+    defineuser(
+      username: String!
+      favoriteGenre: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
+    
+    
   }
+  type Subscription {
+    addBook: Book!
+  }
+ 
   type Author {
     name:String!
     id:ID!
     born:Int
     bookCount:Int
   }
-  type Query{
-    authorCount:Int!
-    allAuthor:[Author!]!
-  }
+  
   type User {
     username: String!
     favoriteGenre: String!
@@ -57,19 +73,8 @@ const typeDefs = gql`
   type Token {
     value: String!
   }
-  type Query{
-    who:User
-  }
-  type Mutation {
-    defineuser(
-      username: String!
-      favoriteGenre: String!
-    ): User
-    login(
-      username: String!
-      password: String!
-    ): Token
-  }
+  
+  
 `
 
 const resolvers = {
@@ -146,10 +151,11 @@ const resolvers = {
         })
       }
       const which = await (await Book.findOne({title:args.title})).populate('author')
-
+      pubsub.publish('BOOK_ADDED', { addBook: which })
       return which
 
     },
+    
     editAuthor:async (root,args,context) => {
       const whose = await Author.findOne({name:args.name})
       const currentUser = context.currentUser
@@ -190,7 +196,12 @@ const resolvers = {
       return { value: jwt.sign(userForToken, jwtkey) }
     },
   
-  }
+  },
+  Subscription: {
+    addBook: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+    },
+  },
 }
 
 const server = new ApolloServer({
@@ -208,6 +219,7 @@ const server = new ApolloServer({
     }
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url ,subscriptionsUrl}) => {
   console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 })
