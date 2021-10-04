@@ -4,6 +4,18 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import Recommended from './components/Recomended'
+import {
+   useSubscription,gql
+} from '@apollo/client'
+
+export const BOOK_ADDED = gql`
+subscription{
+  addBook {
+    title
+  }
+}
+`
+
 const Errorshower = ({error}) => {  
   if ( !error ) {    
     return null  
@@ -24,6 +36,13 @@ const App = () => {
       setError(null)    
     }, 7000)  
   }
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      //console.log(subscriptionData,'aayo hai ')
+      window.alert(`New book added: ${subscriptionData.data.addBook.title}`)
+      setTimeout(() => setError(null), 5000)
+    }
+  })
   useEffect(()=>{
     const token = localStorage.getItem('library-user-token')
     if(token){
