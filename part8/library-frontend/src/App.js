@@ -37,7 +37,7 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         {token&&<button onClick={() => setPage('add')}>add book</button>}
-        <button onClick = {()=>setPage('Recommended')}>Recommended</button>
+        {token&&<button onClick = {()=>setPage('Recommended')}>Recommended</button>}
         {token?<button onClick={()=>{setToken(null)
            setPage('authors')
            localStorage.clear()}}>LogOut</button>:<button onClick={() => setPage('login')}>{token?'LogOut':'Login'}</button>}

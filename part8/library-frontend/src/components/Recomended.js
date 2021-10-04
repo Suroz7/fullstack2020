@@ -22,6 +22,7 @@ query {
 const Recommended = (props) => {
   const result = useQuery(queryAllBooks)
   const userresult = useQuery(me)
+  // const fg = 'all'
   const fg = !userresult.loading?userresult.data.who.favoriteGenre:'all'
   useEffect(()=>{
     if(!userresult.loading){
@@ -37,6 +38,7 @@ const Recommended = (props) => {
   }
   return (
     <div>
+      {console.log(userresult)}
       <h2>Filter Books By Favourite Genre {userresult.data.who.favoriteGenre}</h2>
       <h2>books</h2>
       <table>
